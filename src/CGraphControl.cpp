@@ -59,11 +59,11 @@ void CGraphControl::VDraw() {
 	rect.setPosition( m_position.x+m_graphSize.x-(m_graphSize.x/m_maxReadings)*2+3, m_position.y-m_graphSize.y);
 	m_app->RenderSurface().draw(rect);
 
-	// Surround the control with a greyish bounding box
+	// Surround the control with border
 	sf::RectangleShape rect2( sf::Vector2f( m_graphSize.x, m_graphSize.y+10)  );
 	rect2.setPosition( m_position.x+5, m_position.y-m_graphSize.y-5);
 	rect2.setFillColor(sf::Color(0, 0, 0, 0));
-	rect2.setOutlineColor(sf::Color(255, 255, 255, 30));
+	rect2.setOutlineColor(m_app->Options().GetColourOf( Colour::GRAPH_BORDER ) );
 	rect2.setOutlineThickness(1);
 	m_app->RenderSurface().draw(rect2);
 }

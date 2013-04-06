@@ -15,7 +15,7 @@ void CGraphCPU::VInit() {
 	m_currentLoad = 0;
 	CGraphControl::VInit();
 
-	m_font.loadFromFile("neuropolitical.ttf");
+	m_font.loadFromFile( m_app->Options().GetFontFilename() );
 
 	sigar_open(&m_sigar);
 }
@@ -42,13 +42,13 @@ void CGraphCPU::VDraw() {
 	// Draw the numbers
 	std::ostringstream iss; iss << m_currentLoad << "%";
 	sf::Text t( iss.str(), m_font, 90 );
-	t.setColor(sf::Color(255, 255, 255, 190));
+	t.setColor( m_app->Options().GetColourOf(Colour::TEXT1) );
 	t.setPosition(65, 10);
 
 	// Draw "CPU Load"
 	std::ostringstream iss2; iss2 << "CPU Load";
 	sf::Text t2( iss2.str(), m_font, 24 );
-	t2.setColor(sf::Color(255, 255, 255, 120));
+	t2.setColor( m_app->Options().GetColourOf(Colour::TEXT2) );
 	t2.setPosition(220, 110);
 
 	m_app->RenderSurface().draw(t);
@@ -65,7 +65,7 @@ void CGraphRAM::VInit() {
 	m_currentRAM = 0;
 	CGraphControl::VInit();
 
-	m_font.loadFromFile("neuropolitical.ttf");
+	m_font.loadFromFile( m_app->Options().GetFontFilename() );
 
 	sigar_open(&m_sigar);
 }
@@ -89,27 +89,28 @@ void CGraphRAM::VDraw() {
 	sf::Text t2( iss2.str(), m_font, 24 );
 	t2.rotate(-90);
 	t2.setPosition(733, 112);
-	t2.setColor(sf::Color(255, 255, 255, 180));
+	t2.setColor( m_app->Options().GetColourOf(Colour::TEXT1) );
 
 	std::ostringstream iss; iss << m_currentRAM << "%";
 	sf::Text t(iss.str(), m_font, 18 );
 	t.rotate(-90);
 	t.setPosition(763, 97);
-	t.setColor(sf::Color(255, 255, 255, 120));
+	t.setColor( m_app->Options().GetColourOf(Colour::TEXT2) );
 
 	m_app->RenderSurface().draw(t);
 	m_app->RenderSurface().draw(t2);
 }
 
 
-//Again, hacky, but only inheriting so that we can re-use the periodic update code
+// Hacky, but only inheriting to re-use the periodic update code
+// TODO: Move into a specialized text-handling class
 COtherStuff::COtherStuff(int xpos, int ypos, int width, int height ) :
 CGraphControl(xpos, ypos, width, height, 50, 100, 0.3 ) { }
 
 void COtherStuff::VInit() {
 	CGraphControl::VInit();
 
-	m_font.loadFromFile("neuropolitical.ttf");
+	m_font.loadFromFile( m_app->Options().GetFontFilename() );
 
 	sigar_open(&m_sigar);
 }
@@ -125,7 +126,7 @@ float COtherStuff::VUpdateGraph() {
 	m_gigsFree = float(filet.free)/1024/1024;
 	m_gigsUsed = float(filet.used)/1024/1024;
 
-	/*sigar_net_interface_config_t netct;
+	/*sigar_net_interface_config_t netct; // Tried network stuff, was reading zeros so nope
 	sigar_net_interface_config_primary_get(m_sigar, &netct);
 	sigar_net_interface_stat_t netst;
 	sigar_net_interface_stat_get(m_sigar, netct.type, &netst);
@@ -147,10 +148,15 @@ void COtherStuff::VDraw() {
 	// Don't actually draw the graph
 	//CGraphControl::VDraw();
 
+	sf::Color text1_col = m_app->Options().GetColourOf(Colour::TEXT1),
+			  text2_col = m_app->Options().GetColourOf(Colour::TEXT2);
+
+	// Draw a bunch of textual stats
+
 	std::ostringstream iss; iss << "HDD Usage: (C:\\)";
 	sf::Text t(iss.str(), m_font, 26 );
 	t.setPosition(470, 157);
-	t.setColor(sf::Color(255, 255, 255, 190));
+	t.setColor(text1_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -158,7 +164,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(20);
 	t.setPosition(473, 194);
-	t.setColor(sf::Color(255, 255, 255, 130));
+	t.setColor(text2_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -166,7 +172,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(20);
 	t.setPosition(473, 222 );
-	t.setColor(sf::Color(255, 255, 255, 130));
+	t.setColor(text2_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -174,7 +180,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(16);
 	t.setPosition(473, 253 );
-	t.setColor(sf::Color(255, 255, 255, 130));
+	t.setColor(text2_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -185,7 +191,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(22);
 	t.setPosition(473, 323 );
-	t.setColor(sf::Color(255, 255, 255, 190));
+	t.setColor(text1_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -193,7 +199,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(22);
 	t.setPosition(473, 353 );
-	t.setColor(sf::Color(255, 255, 255, 190));
+	t.setColor(text1_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -202,7 +208,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(12);
 	t.setPosition(473, 445 );
-	t.setColor(sf::Color(255, 255, 255, 190));
+	t.setColor(text1_col);
 
 	m_app->RenderSurface().draw(t);
 
@@ -210,8 +216,7 @@ void COtherStuff::VDraw() {
 	t.setString(iss.str());
 	t.setCharacterSize(8);
 	t.setPosition(10, 470 );
-	//t.rotate(-90);
-	t.setColor(sf::Color(255, 255, 255, 80));
+	t.setColor(sf::Color(255, 255, 255, 50));
 
 	m_app->RenderSurface().draw(t);
 }

@@ -7,6 +7,7 @@
 #include <Windows.h>
 
 #include "IControl.h"
+#include "CAppOptions.h"
 
 #include <vector>
 #include <memory>
@@ -29,6 +30,8 @@ public:
 
 	sf::RenderTexture &RenderSurface();
 
+	CAppOptions &Options();
+
 	float GetFrameTime();
 
 	virtual ~CApp();
@@ -50,7 +53,11 @@ private:
 	sf::Clock m_frameClock;
 	float m_frameTime;
 
+	// Logging
 	std::ofstream m_ofs;
+
+	// Config options
+	CAppOptions m_options;
 
 	// Only need a renderwindow if we're emulating the screen
 #ifdef EMULATE_SCREEN
