@@ -13,11 +13,13 @@
   <ItemGroup>
     <ClCompile Include="src\CApp.cpp" />
     <ClCompile Include="src\CGraphControl.cpp" />
+    <ClCompile Include="src\CSystemGraphs.cpp" />
     <ClCompile Include="src\SwitchbladeSFML.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CApp.h" />
     <ClInclude Include="src\CGraphControl.h" />
+    <ClInclude Include="src\CSystemGraphs.h" />
     <ClInclude Include="src\IControl.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
