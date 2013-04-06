@@ -43,7 +43,7 @@ void CGraphControl::VDraw() {
 
 		// Colour grading
 		int colourGradient = m_data[i]/float(m_upperThreshold)*255;
-		vertices[i].color = sf::Color(colourGradient, 255-colourGradient, 0 );
+		vertices[i].color = sf::Color(colourGradient, 0, 255-colourGradient );
 		vertices[i].color.a = 128+colourGradient/2;
 
 		// Make elements of value 0 disappear to remove pre-emptive trail
@@ -63,7 +63,7 @@ void CGraphControl::VDraw() {
 	sf::RectangleShape rect2( sf::Vector2f( m_graphSize.x, m_graphSize.y+10)  );
 	rect2.setPosition( m_position.x+5, m_position.y-m_graphSize.y-5);
 	rect2.setFillColor(sf::Color(0, 0, 0, 0));
-	rect2.setOutlineColor(sf::Color(128, 255, 128, 30));
+	rect2.setOutlineColor(sf::Color(255, 255, 255, 30));
 	rect2.setOutlineThickness(1);
 	m_app->RenderSurface().draw(rect2);
 }

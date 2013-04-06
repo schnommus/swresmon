@@ -51,6 +51,8 @@ void CApp::Initialize( int size_x, int size_y ) {
 void CApp::Run() {
 	bool running = true;
 	while( running ) {
+		//sf::sleep( sf::seconds(0.015) );
+
 		// BEGIN LOGIC
 
 		for( int i = 0; i != m_controls.size(); ++i ) {
@@ -60,8 +62,10 @@ void CApp::Run() {
 #ifdef EMULATE_SCREEN
 		sf::Event e;
 		while ( m_screenEmulator.pollEvent(e) ) {
-			if( e.type = sf::Event::Closed)
+			if( e.type == sf::Event::Closed) {
 				running = false;
+				m_screenEmulator.close();
+			}
 		}
 #endif
 
@@ -75,10 +79,12 @@ void CApp::Run() {
 			m_controls[i]->VDraw();
 		}
 
+#ifdef SHOW_FPS
 		// Show framerate
 		std::ostringstream iss; iss << int(1/m_frameTime) << " FPS";
-		sf::Text t( iss.str(), sf::Font::getDefaultFont(), 20 );
+		sf::Text t( iss.str(), sf::Font::getDefaultFont(), 10 );
 		m_renderSurface.draw(t);
+#endif
 
 		// END DRAWING
 
@@ -130,8 +136,8 @@ void CApp::RenderToSwitchblade() {
 	for( long i = 0; i != sz.x*sz.y; ++i ) {
 		int xpos = i%sz.x, ypos = i/sz.x;
 		// Shift bits to their positions, then mask to pixel for each colour
-		m_renderBufferOut[i] = 0x1F & m_renderBufferIn[sz.x*ypos*4+xpos*4+1]>>3;
-		m_renderBufferOut[i] |= 0x7E0 & m_renderBufferIn[sz.x*ypos*4+xpos*4+2]<<3;
+		m_renderBufferOut[i] = 0x1F & m_renderBufferIn[sz.x*ypos*4+xpos*4+2]>>3;
+		m_renderBufferOut[i] |= 0x7E0 & m_renderBufferIn[sz.x*ypos*4+xpos*4+1]<<3;
 		m_renderBufferOut[i] |= 0xF800 & m_renderBufferIn[sz.x*ypos*4+xpos*4]<<8;
 	}
 
