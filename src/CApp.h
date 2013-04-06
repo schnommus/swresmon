@@ -3,7 +3,16 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
-// Uncomment to instead render to a window (for debugging)
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+
+#include "IControl.h"
+
+#include <vector>
+#include <memory>
+#include <fstream>
+
+// Uncomment to instead render to a window (For debugging)
 //#define EMULATE_SCREEN
 
 class CApp {
@@ -14,7 +23,11 @@ public:
 
 	void Run();
 
-	inline float GetFrameTime();
+	void AddControl( IControl *control );
+
+	sf::RenderTexture &RenderSurface();
+
+	float GetFrameTime();
 
 	virtual ~CApp();
 
@@ -22,6 +35,9 @@ private:
 	void RenderToSwitchblade();
 
 	sf::RenderTexture m_renderSurface;
+
+	// Controls to be processed
+	std::vector< std::shared_ptr< IControl > > m_controls;
 
 	// Sending images to the device
 	sf::Image m_renderBufferImage;
@@ -31,6 +47,8 @@ private:
 	// Keeping track of frame delta
 	sf::Clock m_frameClock;
 	float m_frameTime;
+
+	std::ofstream m_ofs;
 
 	// Only need a renderwindow if we're emulating the screen
 #ifdef EMULATE_SCREEN
