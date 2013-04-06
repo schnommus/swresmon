@@ -15,8 +15,8 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 	app.AddControl(new CGraphCPU( 17, 450, 400, 270 ) );
 	app.AddControl(new CGraphRAM( 445, 120, 280, 90 ) );
 
-	// Don't put the graph onscreen for this one; it's just static text
-	// tODO: Move into separate text control
+	// Don't put the graph onscreen for this one; it's just some text
+	// TODO: Move into separate text control
 	app.AddControl(new COtherStuff(2000, 2000, 1, 1));
 
 	app.Run();

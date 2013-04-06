@@ -5,7 +5,7 @@
 
 class CGraphControl : public IControl {
 public:
-	CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold, float updateInterval );
+	CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold );
 
 	virtual void VInit();
 
