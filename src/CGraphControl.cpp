@@ -1,17 +1,17 @@
 #include "CGraphControl.h"
 #include <iostream>
 
-CGraphControl::CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold, float updateInterval ) {
+CGraphControl::CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold ) {
 	m_position = sf::Vector2f( pos_x, pos_y );
 	m_graphSize = sf::Vector2f( width, height );
 	m_maxReadings = maxReadings;
 	m_upperThreshold = upperThreshold;
-	m_updateInterval = updateInterval;
 }
 
 
 void CGraphControl::VInit() {
 	m_data.resize(m_maxReadings, 0);
+	m_updateInterval = m_app->Options().GetUpdateInterval();
 }
 
 

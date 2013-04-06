@@ -44,6 +44,7 @@ void CApp::Initialize( int size_x, int size_y ) {
 	}
 #endif
 
+	// Stores RGB565 info before being sent to the switchblade device
 	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
 
 	m_options.LoadAllOptions();
@@ -53,7 +54,8 @@ void CApp::Initialize( int size_x, int size_y ) {
 void CApp::Run() {
 	bool running = true;
 	while( running ) {
-		//sf::sleep( sf::seconds(0.015) );
+		// To avoid hogging CPU
+		sf::sleep( sf::seconds( m_options.GetForcedSleep() ) );
 
 		// BEGIN LOGIC
 

@@ -8,7 +8,7 @@ extern "C"  {
 }
 
 CGraphCPU::CGraphCPU(int xpos, int ypos, int width, int height ) :
-	CGraphControl(xpos, ypos, width, height, 50, 100, 0.3 ) { }
+	CGraphControl(xpos, ypos, width, height, 50, 100 ) { }
 
 
 void CGraphCPU::VInit() {
@@ -58,7 +58,7 @@ void CGraphCPU::VDraw() {
 
 
 CGraphRAM::CGraphRAM(int xpos, int ypos, int width, int height ) :
-CGraphControl(xpos, ypos, width, height, 50, 100, 0.3 ) { }
+CGraphControl(xpos, ypos, width, height, 50, 100 ) { }
 
 
 void CGraphRAM::VInit() {
@@ -105,7 +105,7 @@ void CGraphRAM::VDraw() {
 // Hacky, but only inheriting to re-use the periodic update code
 // TODO: Move into a specialized text-handling class
 COtherStuff::COtherStuff(int xpos, int ypos, int width, int height ) :
-CGraphControl(xpos, ypos, width, height, 50, 100, 0.3 ) { }
+CGraphControl(xpos, ypos, width, height, 50, 100 ) { }
 
 void COtherStuff::VInit() {
 	CGraphControl::VInit();
@@ -117,12 +117,12 @@ void COtherStuff::VInit() {
 
 float COtherStuff::VUpdateGraph() {
 	sigar_disk_usage_t diskt;
-	sigar_disk_usage_get(m_sigar, "C:\\", &diskt);
+	sigar_disk_usage_get(m_sigar, m_app->Options().GetHDDName().c_str(), &diskt);
 	m_read = diskt.read_bytes;
 	m_written = diskt.write_bytes;
 
 	sigar_file_system_usage_t filet;
-	sigar_file_system_usage_get(m_sigar, "C:\\", &filet);
+	sigar_file_system_usage_get(m_sigar, m_app->Options().GetHDDName().c_str(), &filet);
 	m_gigsFree = float(filet.free)/1024/1024;
 	m_gigsUsed = float(filet.used)/1024/1024;
 
@@ -148,16 +148,17 @@ void COtherStuff::VDraw() {
 	// Don't actually draw the graph
 	//CGraphControl::VDraw();
 
+	// Shorten the names of text colours - using them a lot below!
 	sf::Color text1_col = m_app->Options().GetColourOf(Colour::TEXT1),
 			  text2_col = m_app->Options().GetColourOf(Colour::TEXT2);
 
+
 	// Draw a bunch of textual stats
 
-	std::ostringstream iss; iss << "HDD Usage: (C:\\)";
+	std::ostringstream iss; iss << "HDD Usage: (" << m_app->Options().GetHDDName() << ")";
 	sf::Text t(iss.str(), m_font, 26 );
 	t.setPosition(470, 157);
 	t.setColor(text1_col);
-
 	m_app->RenderSurface().draw(t);
 
 	iss.str(""); iss << float(m_read)/1024/1024/1024 << "Gb Read";
@@ -165,7 +166,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(20);
 	t.setPosition(473, 194);
 	t.setColor(text2_col);
-
 	m_app->RenderSurface().draw(t);
 
 	iss.str(""); iss << float(m_written)/1024/1024/1024 << "Gb Written";
@@ -173,7 +173,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(20);
 	t.setPosition(473, 222 );
 	t.setColor(text2_col);
-
 	m_app->RenderSurface().draw(t);
 
 	iss.str(""); iss << float(int(m_gigsFree*100))/100 << "Gb free of " << float(int((m_gigsUsed+m_gigsFree)*100))/100 << "Gb";
@@ -181,7 +180,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(16);
 	t.setPosition(473, 253 );
 	t.setColor(text2_col);
-
 	m_app->RenderSurface().draw(t);
 
 	char buf[32];
@@ -192,7 +190,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(22);
 	t.setPosition(473, 323 );
 	t.setColor(text1_col);
-
 	m_app->RenderSurface().draw(t);
 
 	iss.str(""); iss << "Uptime: " << float(int(m_uptime*100))/100 << "Hr";
@@ -200,7 +197,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(22);
 	t.setPosition(473, 353 );
 	t.setColor(text1_col);
-
 	m_app->RenderSurface().draw(t);
 
 	time_t ct = time(0);
@@ -209,7 +205,6 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(12);
 	t.setPosition(473, 445 );
 	t.setColor(text1_col);
-
 	m_app->RenderSurface().draw(t);
 
 	iss.str(""); iss << "sebholzapfel.com";
@@ -217,6 +212,5 @@ void COtherStuff::VDraw() {
 	t.setCharacterSize(8);
 	t.setPosition(10, 470 );
 	t.setColor(sf::Color(255, 255, 255, 50));
-
-	m_app->RenderSurface().draw(t);
+	if( m_app->Options().ShowLink() ) m_app->RenderSurface().draw(t);
 }

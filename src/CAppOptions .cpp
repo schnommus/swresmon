@@ -13,9 +13,27 @@ sf::Color CAppOptions::GetColourOf( Colour::Type colourType ) {
 	}
 }
 
+
 std::string CAppOptions::GetFontFilename() {
 	return m_font_filename;
 }
+
+float CAppOptions::GetUpdateInterval() {
+	return m_updateInterval;
+}
+
+float CAppOptions::GetForcedSleep() {
+	return m_forcedSleep;
+}
+
+std::string CAppOptions::GetHDDName() {
+	return m_hdd_name;
+}
+
+bool CAppOptions::ShowLink() {
+	return m_showLink != "false";
+}
+
 
 void CAppOptions::LoadAllOptions() {
 	m_text1_colour = sf::Color( GetSingleOptionAsFloat("Text1_Red"), GetSingleOptionAsFloat("Text1_Green"), GetSingleOptionAsFloat("Text1_Blue"), GetSingleOptionAsFloat("Text1_Alpha") );
@@ -23,6 +41,11 @@ void CAppOptions::LoadAllOptions() {
 	m_graphBorder_colour = sf::Color( GetSingleOptionAsFloat("GraphBorder_Red"), GetSingleOptionAsFloat("GraphBorder_Green"), GetSingleOptionAsFloat("GraphBorder_Blue"), GetSingleOptionAsFloat("GraphBorder_Alpha") );
 
 	m_font_filename = GetSingleOption("FontName");
+	m_hdd_name = GetSingleOption("SelectedHDD");
+	m_showLink = GetSingleOption("ShowLink");
+
+	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
+	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");
 }
 
 
