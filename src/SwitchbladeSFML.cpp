@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "CApp.h"
-#include "CGraphControl.h"
+#include "CSystemGraphs.h"
 
 class ImageControl : public IControl {
 public:
@@ -37,7 +37,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 	app.Initialize(800, 480);
 
 	//app.AddControl( new ImageControl );
-	app.AddControl(new CGraphControl( 300, 400, 400, 300, 50, 100, 0.1 ) );
+	app.AddControl(new CGraphCPU( 300, 400, 400, 300 ) );
 
 	app.Run();
 

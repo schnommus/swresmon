@@ -46,6 +46,7 @@ void CGraphControl::VDraw() {
 		vertices[i].color = sf::Color(colourGradient, 255-colourGradient, 0 );
 		vertices[i].color.a = 128+colourGradient/2;
 
+		// Make elements of value 0 disappear to remove pre-emptive trail
 		if(m_data[i] <= 0.001) vertices[i].color.a = 0;
 	}
 	m_app->RenderSurface().draw(vertices);
