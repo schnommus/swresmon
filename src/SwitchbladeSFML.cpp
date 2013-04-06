@@ -36,8 +36,12 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 
 	app.Initialize(800, 480);
 
-	//app.AddControl( new ImageControl );
-	app.AddControl(new CGraphCPU( 300, 400, 400, 300 ) );
+	app.AddControl(new CGraphCPU( 17, 450, 400, 270 ) );
+	app.AddControl(new CGraphRAM( 445, 120, 280, 90 ) );
+	/*app.AddControl(new CGraphRAM( 465, 280, 260, 90 ) );
+	app.AddControl(new CGraphRAM( 465, 440, 260, 90 ) );*/
+	app.AddControl(new COtherStuff(2000, 2000, 1, 1));
+
 
 	app.Run();
 
