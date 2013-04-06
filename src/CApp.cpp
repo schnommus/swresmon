@@ -5,29 +5,30 @@
 #include <fstream>
 #include <exception>
 
-#define WIN32_LEAN_AND_MEAN // Rid of some MFC bloat
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 #include <SwitchBlade.h>
 
-CApp::CApp() 
+CApp::CApp() : m_ofs("SwitchbladeSFMLAppLog.txt")
 #ifdef EMULATE_SCREEN
 	// Res-dependent as it has to know on init. For debugging though so eh.
 	// + I don't think Razer'll be changing their device res any time soon
-	: m_screenEmulator( sf::VideoMode(800, 480), "Emulated Switchblade Screen" )
+	,m_screenEmulator( sf::VideoMode(800, 480), "Emulated Switchblade Screen" )
 #endif
 {
 	m_renderBufferOut = nullptr;
 }
 
+
 CApp::~CApp() {
 	delete[] m_renderBufferOut;
 }
 
+
 void CApp::Initialize( int size_x, int size_y ) {
 	// Redirect standard out to a logfile
-	std::ofstream ofs("SwitchbladeSFMLAppLog.txt");
-	std::cout.rdbuf(ofs.rdbuf());
+	std::cout.rdbuf(m_ofs.rdbuf());
 	
 	// Create the render surface
 	std::cout << "Creating SFML render surface..." << std::endl;
@@ -46,10 +47,15 @@ void CApp::Initialize( int size_x, int size_y ) {
 	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
 }
 
+
 void CApp::Run() {
 	bool running = true;
 	while( running ) {
 		// BEGIN LOGIC
+
+		for( int i = 0; i != m_controls.size(); ++i ) {
+			m_controls[i]->VStep();
+		}
 
 #ifdef EMULATE_SCREEN
 		sf::Event e;
@@ -64,6 +70,10 @@ void CApp::Run() {
 		m_renderSurface.clear();
 
 		// BEGIN DRAWING
+
+		for( int i = 0; i != m_controls.size(); ++i ) {
+			m_controls[i]->VDraw();
+		}
 
 		// Show framerate
 		std::ostringstream iss; iss << int(1/m_frameTime) << " FPS";
@@ -81,15 +91,13 @@ void CApp::Run() {
 #ifndef EMULATE_SCREEN
 		// Finally, send the data to the device
 		RenderToSwitchblade();
-#endif
-
-#ifdef EMULATE_SCREEN
+#else
 		m_screenEmulator.clear();
 		m_screenEmulator.draw(sf::Sprite(m_renderSurface.getTexture()));
 		m_screenEmulator.display();
 #endif
 
-		// And keep track of frame time
+		// Keep track of frame time
 		m_frameTime = m_frameClock.getElapsedTime().asSeconds();
 		m_frameClock.restart();
 	}
@@ -99,8 +107,21 @@ void CApp::Run() {
 #endif
 }
 
+
 float CApp::GetFrameTime() {
 	return m_frameTime;
+}
+
+
+sf::RenderTexture &CApp::RenderSurface() {
+	return m_renderSurface;
+}
+
+
+void CApp::AddControl( IControl *control ) {
+	m_controls.push_back( std::shared_ptr<IControl>(control) );
+	m_controls.back()->m_app = this;
+	m_controls.back()->VInit();
 }
 
 void CApp::RenderToSwitchblade() {
