@@ -34,7 +34,7 @@ public:
 };
 
 
-//Only inheriting so that we can re-use the periodic update code
+//Only inheriting to re-use the periodic update code
 class COtherStuff : public CGraphControl {
 public:
 	COtherStuff(int xpos, int ypos, int width, int height );

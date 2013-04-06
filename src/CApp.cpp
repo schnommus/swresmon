@@ -45,6 +45,8 @@ void CApp::Initialize( int size_x, int size_y ) {
 #endif
 
 	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
+
+	m_options.LoadAllOptions();
 }
 
 
@@ -121,6 +123,10 @@ float CApp::GetFrameTime() {
 
 sf::RenderTexture &CApp::RenderSurface() {
 	return m_renderSurface;
+}
+
+CAppOptions &CApp::Options() {
+	return m_options;
 }
 
 
