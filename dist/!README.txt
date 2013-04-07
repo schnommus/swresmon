@@ -1,4 +1,4 @@
-SwResMon - A resource monitoring app developed for/with Razer's Switchblade UI SDK.
+SwResMon - A resource monitoring app [CPU load, RAM, HDD etc] developed for/with Razer's Switchblade UI SDK.
 
 RUNNING THE APP
 
