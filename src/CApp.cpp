@@ -27,6 +27,8 @@ CApp::~CApp() {
 
 
 void CApp::Initialize( int size_x, int size_y ) {
+	try {
+
 	// Redirect standard out to a logfile
 	std::cout.rdbuf(m_ofs.rdbuf());
 	
@@ -48,6 +50,13 @@ void CApp::Initialize( int size_x, int size_y ) {
 	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
 
 	m_options.LoadAllOptions();
+
+	} catch (std::exception &e) {
+		std::cout << "Fatal exception: " << e.what() << std::endl;
+	} catch (...) {
+		// Shouldn't happen
+		std::cout << "Anonymous fatal exception!" << std::endl;
+	}
 }
 
 
@@ -138,7 +147,9 @@ void CApp::AddControl( IControl *control ) {
 	m_controls.back()->VInit();
 }
 
+
 void CApp::RenderToSwitchblade() {
+#ifndef EMULATE_SCREEN
 	// Convert from 32-bit RGBA to 16-bit RGB565 with some bit-flipping
 	const sf::Vector2u sz(m_renderSurface.getSize());
 	for( long i = 0; i != sz.x*sz.y; ++i ) {
@@ -157,4 +168,5 @@ void CApp::RenderToSwitchblade() {
 
 	// Then do the actual sending
 	RzSBRenderBuffer(RZSBSDK_DISPLAY_WIDGET, &params );
+#endif
 }

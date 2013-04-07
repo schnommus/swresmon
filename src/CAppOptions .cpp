@@ -11,6 +11,7 @@ sf::Color CAppOptions::GetColourOf( Colour::Type colourType ) {
 		case Colour::GRAPH_BORDER:
 			return m_graphBorder_colour;
 	}
+	return sf::Color(255, 255, 255, 255);
 }
 
 
