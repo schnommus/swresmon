@@ -6,7 +6,6 @@
 
 // Treat as windows app to avoid console displaying
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) {
-	try {
 
 	CApp app;
 
@@ -20,13 +19,6 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 	app.AddControl(new COtherStuff(2000, 2000, 1, 1));
 
 	app.Run();
-
-	} catch (std::exception &e) {
-		std::cout << "Fatal exception: " << e.what() << std::endl;
-	} catch (...) {
-		// Shouldn't happen
-		std::cout << "Anonymous fatal exception!" << std::endl;
-	}
 
 	return 0;
 }
