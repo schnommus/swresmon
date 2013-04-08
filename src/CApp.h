@@ -34,6 +34,8 @@ public:
 
 	float GetFrameTime();
 
+	static void KillApplication();
+
 	virtual ~CApp();
 
 private:
@@ -58,6 +60,9 @@ private:
 
 	// Config options
 	CAppOptions m_options;
+
+	// Is the app running? (Static because nonmember must change this)
+	static bool m_isrunning;
 
 	// Only need a renderwindow if we're emulating the screen
 #ifdef EMULATE_SCREEN
