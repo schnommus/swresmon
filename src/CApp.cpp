@@ -10,6 +10,10 @@
 
 #include <SwitchBlade.h>
 
+// Init running here so that the app will still quit if it receives a 'disable' event during initialization
+bool CApp::m_isrunning = true;
+
+
 CApp::CApp() : m_ofs("SwitchbladeSFMLAppLog.txt")
 #ifdef EMULATE_SCREEN
 	// Res-dependent as it has to know on init. For debugging though so eh.
@@ -24,6 +28,20 @@ CApp::CApp() : m_ofs("SwitchbladeSFMLAppLog.txt")
 CApp::~CApp() {
 	delete[] m_renderBufferOut;
 }
+
+
+#ifndef EMULATE_SCREEN
+// This function never seems to get called even though it's registered but I'll leave it here :/
+HRESULT __stdcall RazerAppEventCallback( RZSBSDK_EVENTTYPETYPE eType, DWORD i1, DWORD i2) {
+	std::cout << "Got event from RazorSDK: " << eType << std::endl;
+
+	// Easier just to kill the app on any closing events, it re-loads pretty quick anyways.
+	if( eType == RZSBSDK_EVENT_DEACTIVATED || eType == RZSBSDK_EVENT_CLOSE || eType == RZSBSDK_EVENT_EXIT ) {
+		CApp::KillApplication();
+	}
+	return RZSB_OK;
+}
+#endif
 
 
 void CApp::Initialize( int size_x, int size_y ) {
@@ -44,6 +62,9 @@ void CApp::Initialize( int size_x, int size_y ) {
 	if( RzSBStart() != RZSB_OK ) {
 		throw std::exception("Couldn't connect to switchblade device");
 	}
+
+	// To handle app-switch events etc
+	RzSBAppEventSetCallback( &RazerAppEventCallback );
 #endif
 
 	// Stores RGB565 info before being sent to the switchblade device
@@ -61,8 +82,7 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 
 void CApp::Run() {
-	bool running = true;
-	while( running ) {
+	while( m_isrunning ) {
 		// To avoid hogging CPU
 		sf::sleep( sf::seconds( m_options.GetForcedSleep() ) );
 
@@ -76,8 +96,8 @@ void CApp::Run() {
 		sf::Event e;
 		while ( m_screenEmulator.pollEvent(e) ) {
 			if( e.type == sf::Event::Closed) {
-				running = false;
 				m_screenEmulator.close();
+				KillApplication();
 			}
 		}
 #endif
@@ -138,6 +158,10 @@ sf::RenderTexture &CApp::RenderSurface() {
 
 CAppOptions &CApp::Options() {
 	return m_options;
+}
+
+void CApp::KillApplication() {
+	m_isrunning = false;
 }
 
 

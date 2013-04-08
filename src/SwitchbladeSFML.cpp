@@ -16,7 +16,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 
 	// Don't put the graph onscreen for this one; it's just some text
 	// TODO: Move into separate text control
-	app.AddControl(new COtherStuff(2000, 2000, 1, 1));
+	app.AddControl(new COtherStuff(0, 0, 1, 1));
 
 	app.Run();
 
