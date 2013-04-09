@@ -59,12 +59,16 @@ void CApp::Initialize( int size_x, int size_y ) {
 #ifndef EMULATE_SCREEN
 	// Connect to switchblade device
 	std::cout << "Hooking to Switchblade..." << std::endl;
-	if( RzSBStart() != RZSB_OK ) {
-		throw std::exception("Couldn't connect to switchblade device");
+
+	HRESULT rval = RzSBStart();
+	if( rval != RZSB_OK ) {
+		std::ostringstream oss;
+		oss << "Couldn't connect to switchblade device! Code " << std::hex << rval << std::endl;
+		throw std::exception(oss.str().c_str());
 	}
 
 	// To handle app-switch events etc
-	RzSBAppEventSetCallback( &RazerAppEventCallback );
+	std::cout << "Registering to RzAppEvents returned code " << std::hex << RzSBAppEventSetCallback( &RazerAppEventCallback ) << std::endl;
 #endif
 
 	// Stores RGB565 info before being sent to the switchblade device
@@ -74,9 +78,11 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 	} catch (std::exception &e) {
 		std::cout << "Fatal exception: " << e.what() << std::endl;
+		KillApplication();
 	} catch (...) {
 		// Shouldn't happen
 		std::cout << "Anonymous fatal exception!" << std::endl;
+		KillApplication();
 	}
 }
 
@@ -191,6 +197,10 @@ void CApp::RenderToSwitchblade() {
 	params.pData = reinterpret_cast<unsigned char*>(m_renderBufferOut);
 
 	// Then do the actual sending
-	RzSBRenderBuffer(RZSBSDK_DISPLAY_WIDGET, &params );
+	HRESULT rval = RzSBRenderBuffer(RZSBSDK_DISPLAY_WIDGET, &params );
+	if( rval != RZSB_OK ) {
+		std::cout << "Error " << std::hex << rval << " when writing to render buffer! Most likely app is no longer active. Exiting...";
+		KillApplication();
+	}
 #endif
 }
