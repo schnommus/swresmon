@@ -10,8 +10,8 @@ CGraphControl::CGraphControl( int pos_x, int pos_y, int width, int height, int m
 
 
 void CGraphControl::VInit() {
+	IUpdatedControl::VInit();
 	m_data.resize(m_maxReadings, 0);
-	m_updateInterval = m_app->Options().GetUpdateInterval();
 }
 
 
@@ -19,15 +19,16 @@ float CGraphControl::VUpdateGraph() {
 	return rand()%m_upperThreshold;
 }
 
+void CGraphControl::VUpdateControl() {
+	m_data.push_front(VUpdateGraph());
+	m_data.resize(m_maxReadings, 0);
+	m_slideValue = 0;
+}
+
 
 void CGraphControl::VStep() {
-	// Don't update too often
-	if(m_updateClock.getElapsedTime().asSeconds() > m_updateInterval ) {
-		m_data.push_front(VUpdateGraph());
-		m_data.resize(m_maxReadings, 0);
-		m_slideValue = 0;
-		m_updateClock.restart();
-	}
+	// Updated control needs to keep track of self
+	IUpdatedControl::VStep();
 
 	// Slide so the graph doesn't look jerky
 	m_slideValue += ((m_graphSize.x/float(m_maxReadings))/(m_updateInterval))*m_app->GetFrameTime();

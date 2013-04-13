@@ -30,6 +30,9 @@
     <ClCompile Include="src\CAppOptions .cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\IUpdatedControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CApp.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CAppOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IUpdatedControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
