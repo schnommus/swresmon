@@ -5,53 +5,60 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="UI Controls">
+      <UniqueIdentifier>{93104eaf-07fe-4495-af3f-bb46dec7adbf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="App - Engine">
+      <UniqueIdentifier>{40cb645d-8c7c-4fe6-881b-7b2ed66e6407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App - Custom">
+      <UniqueIdentifier>{013a5ad8-c6c4-4a64-a29e-f44e6dae4740}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SwitchbladeSFML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CGraphControl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CSystemGraphs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CAppOptions .cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI Controls</Filter>
     </ClCompile>
     <ClCompile Include="src\IUpdatedControl.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UI Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CTextControl.cpp">
+      <Filter>UI Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CApp.cpp">
+      <Filter>App - Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CAppOptions .cpp">
+      <Filter>App - Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSystemGraphs.cpp">
+      <Filter>App - Custom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CGraphControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CSystemGraphs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CAppOptions.h">
-      <Filter>Header Files</Filter>
+      <Filter>UI Controls</Filter>
     </ClInclude>
     <ClInclude Include="src\IUpdatedControl.h">
-      <Filter>Header Files</Filter>
+      <Filter>UI Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CGraphControl.h">
+      <Filter>UI Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CTextControl.h">
+      <Filter>UI Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CAppOptions.h">
+      <Filter>App - Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CApp.h">
+      <Filter>App - Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSystemGraphs.h">
+      <Filter>App - Custom</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
