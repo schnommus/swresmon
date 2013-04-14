@@ -31,7 +31,9 @@
     <ClInclude Include="src\IScreen.h" />
     <ClInclude Include="src\IUpdatedControl.h" />
     <ClInclude Include="src\IControl.h" />
+    <ClInclude Include="src\Screen_BigClock.h" />
     <ClInclude Include="src\Screen_Classic.h" />
+    <ClInclude Include="src\SharedControls.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D61EA203-C2D9-45CA-A5FE-7703C224BFBD}</ProjectGuid>
