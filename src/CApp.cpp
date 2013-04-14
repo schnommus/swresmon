@@ -91,8 +91,6 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 void CApp::Run() {
 	while( m_isrunning ) {
-		// To avoid hogging CPU
-		sf::sleep( sf::seconds( m_options.GetForcedSleep() ) );
 
 		// BEGIN LOGIC
 
@@ -145,6 +143,9 @@ void CApp::Run() {
 		m_screenEmulator.draw(sf::Sprite(m_renderSurface.getTexture()));
 		m_screenEmulator.display();
 #endif
+
+		// To avoid hogging CPU
+		sf::sleep( sf::seconds( m_options.GetForcedSleep() ) );
 
 		// Keep track of frame time
 		m_frameTime = m_frameClock.getElapsedTime().asSeconds();

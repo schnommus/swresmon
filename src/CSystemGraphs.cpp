@@ -14,50 +14,22 @@ float CGraphCPU::VUpdateGraph() {
 	return m_app->SystemData().CPU_UsagePercent();
 }
 
-/*void CGraphCPU::VDraw() {
-	CGraphControl::VDraw();
-
-	// Draw the numbers
-	std::ostringstream iss; iss << m_currentLoad << "%";
-	sf::Text t( iss.str(), m_font, 90 );
-	t.setColor( m_app->Options().GetColourOf(Colour::TEXT1) );
-	t.setPosition(65, 10);
-
-	// Draw "CPU Load"
-	std::ostringstream iss2; iss2 << "CPU Load";
-	sf::Text t2( iss2.str(), m_font, 24 );
-	t2.setColor( m_app->Options().GetColourOf(Colour::TEXT2) );
-	t2.setPosition(220, 110);
-
-	m_app->RenderSurface().draw(t);
-	m_app->RenderSurface().draw(t2);
-}*/
-
-
-
 CGraphRAM::CGraphRAM(int xpos, int ypos, int width, int height ) :
 CGraphControl(xpos, ypos, width, height, 50, 100 ) { }
 
 
 void CGraphRAM::VInit() {
-	m_currentRAM = 0;
 	CGraphControl::VInit();
 
 	m_font.loadFromFile( m_app->Options().GetFontFilename() );
-
-	sigar_open(&m_sigar);
 }
 
 float CGraphRAM::VUpdateGraph() {
-	sigar_mem_t memt;
-	sigar_mem_get(m_sigar, &memt);
-	m_currentRAM = memt.used_percent;
-	return m_currentRAM;
+	return m_app->SystemData().RAM_UsagePercent();
 }
 
 void CGraphRAM::VDestroy() {
 	CGraphControl::VDestroy();
-	sigar_close(m_sigar);
 }
 
 void CGraphRAM::VDraw() {
@@ -69,7 +41,7 @@ void CGraphRAM::VDraw() {
 	t2.setPosition(733, 112);
 	t2.setColor( m_app->Options().GetColourOf(Colour::TEXT1) );
 
-	std::ostringstream iss; iss << m_currentRAM << "%";
+	std::ostringstream iss; iss << m_app->SystemData().RAM_UsagePercent() << "%";
 	sf::Text t(iss.str(), m_font, 18 );
 	t.rotate(-90);
 	t.setPosition(763, 97);
