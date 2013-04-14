@@ -14,6 +14,9 @@
     <Filter Include="App - Custom">
       <UniqueIdentifier>{013a5ad8-c6c4-4a64-a29e-f44e6dae4740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{47cc1c36-7151-483a-adbe-7c93ed2fbf8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SwitchbladeSFML.cpp">
@@ -43,6 +46,9 @@
     <ClCompile Include="src\CVirtualRenderSurface.cpp">
       <Filter>App - Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\IScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IControl.h">
@@ -71,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="src\CVirtualRenderSurface.h">
       <Filter>App - Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IScreen.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

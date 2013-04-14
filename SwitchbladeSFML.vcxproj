@@ -18,6 +18,7 @@
     <ClCompile Include="src\CSystemGraphs.cpp" />
     <ClCompile Include="src\CTextControl.cpp" />
     <ClCompile Include="src\CVirtualRenderSurface.cpp" />
+    <ClCompile Include="src\IScreen.cpp" />
     <ClCompile Include="src\IUpdatedControl.cpp" />
     <ClCompile Include="src\SwitchbladeSFML.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
     <ClInclude Include="src\CSystemGraphs.h" />
     <ClInclude Include="src\CTextControl.h" />
     <ClInclude Include="src\CVirtualRenderSurface.h" />
+    <ClInclude Include="src\IScreen.h" />
     <ClInclude Include="src\IUpdatedControl.h" />
     <ClInclude Include="src\IControl.h" />
   </ItemGroup>

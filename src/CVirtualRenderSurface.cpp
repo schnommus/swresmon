@@ -13,7 +13,7 @@ void CVirtualRenderSurface::Init( int size_x, int size_y ) {
 		throw std::exception("Failed to create render surface");
 	}
 
-	// Stores RGB565 info before being sent to the switchblade device
+	// Stores RGB565 info
 	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
 }
 
@@ -21,7 +21,7 @@ sf::RenderTexture &CVirtualRenderSurface::RenderSurface() {
 	return m_renderSurface;
 }
 
-// Probably add a second method that subdivides an image (for dynamic keys)
+// Will probably add a second method that subdivides into images (for dynamic keys)
 unsigned short *CVirtualRenderSurface::GetRGB565() {
 	// Copy the render surface to an image, get a pointer to the raw pixels
 	m_renderBufferImage = m_renderSurface.getTexture().copyToImage();

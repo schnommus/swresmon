@@ -85,11 +85,11 @@ void CApp::Run() {
 
 		// BEGIN LOGIC
 
-		for( int i = 0; i != m_controls.size(); ++i ) {
-			m_controls[i]->VStep();
-		}
-
 		m_systemData.Step();
+
+		for( int i = 0; i != m_screens.size(); ++i ) {
+			m_screens[i]->StepControls();
+		}
 
 #ifdef EMULATE_SCREEN
 		sf::Event e;
@@ -107,8 +107,9 @@ void CApp::Run() {
 
 		// BEGIN DRAWING
 
-		for( int i = 0; i != m_controls.size(); ++i ) {
-			m_controls[i]->VDraw();
+		for( int i = 0; i != m_screens.size(); ++i ) {
+			if( m_screens[i]->m_name == m_activeScreenName)
+				m_screens[i]->DrawControls();
 		}
 
 #ifdef SHOW_FPS
@@ -152,7 +153,6 @@ float CApp::GetFrameTime() {
 	return m_frameTime;
 }
 
-
 sf::RenderTexture &CApp::RenderSurface() {
 	return m_virtualRenderSurface.RenderSurface();
 }
@@ -170,10 +170,14 @@ void CApp::KillApplication() {
 }
 
 
-void CApp::AddControl( IControl *control ) {
-	m_controls.push_back( std::shared_ptr<IControl>(control) );
-	m_controls.back()->m_app = this;
-	m_controls.back()->VInit();
+void CApp::AddScreen( IScreen *screen ) {
+	m_screens.push_back( std::shared_ptr<IScreen>(screen) );
+	m_screens.back()->m_app = this;
+	m_screens.back()->VPopulateControls();
+}
+
+void CApp::SetActiveScreen( std::string name ) {
+	m_activeScreenName = name;
 }
 
 

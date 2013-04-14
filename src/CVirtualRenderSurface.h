@@ -4,14 +4,16 @@
 
 class CVirtualRenderSurface {
 public:
-	CVirtualRenderSurface();
-	~CVirtualRenderSurface();
-
-	sf::RenderTexture &RenderSurface();
-
+	// Before any draw calls
 	void Init( int size_x, int size_y );
 
+	// For drawing to
+	sf::RenderTexture &RenderSurface();
+
 	unsigned short *GetRGB565();
+
+	CVirtualRenderSurface();
+	~CVirtualRenderSurface();
 
 private:
 	sf::RenderTexture m_renderSurface;

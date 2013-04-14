@@ -6,7 +6,7 @@ class CApp;
 
 class IControl {
 public:
-	friend class CApp;
+	friend class IScreen;
 
 	IControl() : m_app(0) {}
 
