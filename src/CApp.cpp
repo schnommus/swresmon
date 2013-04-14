@@ -20,14 +20,10 @@ CApp::CApp() : m_ofs("SwitchbladeSFMLAppLog.txt")
 	// + I don't think Razer'll be changing their device res any time soon
 	,m_screenEmulator( sf::VideoMode(800, 480), "Emulated Switchblade Screen" )
 #endif
-{
-	m_renderBufferOut = nullptr;
-}
+{ }
 
 
-CApp::~CApp() {
-	delete[] m_renderBufferOut;
-}
+CApp::~CApp() { }
 
 
 #ifndef EMULATE_SCREEN
@@ -52,9 +48,7 @@ void CApp::Initialize( int size_x, int size_y ) {
 	
 	// Create the render surface
 	std::cout << "Creating SFML render surface..." << std::endl;
-	if ( !m_renderSurface.create( size_x, size_y ) ) {
-		throw std::exception("Failed to create render surface");
-	}
+	m_virtualRenderSurface.Init( size_x, size_y );
 
 #ifndef EMULATE_SCREEN
 	// Connect to switchblade device
@@ -70,9 +64,6 @@ void CApp::Initialize( int size_x, int size_y ) {
 	// To handle app-switch events etc
 	std::cout << "Registering to RzAppEvents returned code " << std::hex << RzSBAppEventSetCallback( &RazerAppEventCallback ) << std::endl;
 #endif
-
-	// Stores RGB565 info before being sent to the switchblade device
-	m_renderBufferOut = new unsigned short[m_renderSurface.getSize().x * m_renderSurface.getSize().y];
 
 	m_options.LoadAllOptions();
 
@@ -112,7 +103,7 @@ void CApp::Run() {
 
 		// END LOGIC
 
-		m_renderSurface.clear();
+		m_virtualRenderSurface.RenderSurface().clear();
 
 		// BEGIN DRAWING
 
@@ -124,23 +115,20 @@ void CApp::Run() {
 		// Show framerate
 		std::ostringstream iss; iss << int(1/m_frameTime) << " FPS";
 		sf::Text t( iss.str(), sf::Font::getDefaultFont(), 10 );
-		m_renderSurface.draw(t);
+		m_virtualRenderSurface.RenderSurface().draw(t);
 #endif
 
 		// END DRAWING
 
-		m_renderSurface.display();
+		m_virtualRenderSurface.RenderSurface().display();
 
-		// Copy the render surface to an image, get a pointer to the raw pixels
-		m_renderBufferImage = m_renderSurface.getTexture().copyToImage();
-		m_renderBufferIn = m_renderBufferImage.getPixelsPtr();
 
 #ifndef EMULATE_SCREEN
 		// Finally, send the data to the device
 		RenderToSwitchblade();
 #else
 		m_screenEmulator.clear();
-		m_screenEmulator.draw(sf::Sprite(m_renderSurface.getTexture()));
+		m_screenEmulator.draw(sf::Sprite(m_virtualRenderSurface.RenderSurface().getTexture()));
 		m_screenEmulator.display();
 #endif
 
@@ -166,7 +154,7 @@ float CApp::GetFrameTime() {
 
 
 sf::RenderTexture &CApp::RenderSurface() {
-	return m_renderSurface;
+	return m_virtualRenderSurface.RenderSurface();
 }
 
 CSystemData &CApp::SystemData() {
@@ -191,21 +179,13 @@ void CApp::AddControl( IControl *control ) {
 
 void CApp::RenderToSwitchblade() {
 #ifndef EMULATE_SCREEN
-	// Convert from 32-bit RGBA to 16-bit RGB565 with some bit-flipping
-	const sf::Vector2u sz(m_renderSurface.getSize());
-	for( long i = 0; i != sz.x*sz.y; ++i ) {
-		int xpos = i%sz.x, ypos = i/sz.x;
-		// Shift bits to their positions, then mask to pixel for each colour
-		m_renderBufferOut[i] = 0x1F & m_renderBufferIn[sz.x*ypos*4+xpos*4+2]>>3;
-		m_renderBufferOut[i] |= 0x7E0 & m_renderBufferIn[sz.x*ypos*4+xpos*4+1]<<3;
-		m_renderBufferOut[i] |= 0xF800 & m_renderBufferIn[sz.x*ypos*4+xpos*4]<<8;
-	}
+	const sf::Vector2u sz( m_virtualRenderSurface.RenderSurface().getSize() );
 
 	// Set up buffer parameters
 	RZSBSDK_BUFFERPARAMS params;
 	params.PixelType = RGB565;
 	params.DataSize = sz.x*sz.y*2;
-	params.pData = reinterpret_cast<unsigned char*>(m_renderBufferOut);
+	params.pData = reinterpret_cast<unsigned char*>( m_virtualRenderSurface.GetRGB565() );
 
 	// Then do the actual sending
 	HRESULT rval = RzSBRenderBuffer(RZSBSDK_DISPLAY_WIDGET, &params );

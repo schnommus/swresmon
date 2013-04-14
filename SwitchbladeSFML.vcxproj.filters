@@ -38,7 +38,10 @@
       <Filter>App - Custom</Filter>
     </ClCompile>
     <ClCompile Include="src\CSystemData.cpp">
-      <Filter>App - Custom</Filter>
+      <Filter>App - Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CVirtualRenderSurface.cpp">
+      <Filter>App - Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +67,10 @@
       <Filter>App - Custom</Filter>
     </ClInclude>
     <ClInclude Include="src\CSystemData.h">
-      <Filter>App - Custom</Filter>
+      <Filter>App - Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CVirtualRenderSurface.h">
+      <Filter>App - Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
