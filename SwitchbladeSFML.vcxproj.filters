@@ -37,9 +37,6 @@
     <ClCompile Include="src\CAppOptions .cpp">
       <Filter>App - Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\CSystemGraphs.cpp">
-      <Filter>App - Custom</Filter>
-    </ClCompile>
     <ClCompile Include="src\CSystemData.cpp">
       <Filter>App - Engine</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
     <ClInclude Include="src\CApp.h">
       <Filter>App - Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\CSystemGraphs.h">
-      <Filter>App - Custom</Filter>
-    </ClInclude>
     <ClInclude Include="src\CSystemData.h">
       <Filter>App - Engine</Filter>
     </ClInclude>
@@ -79,6 +73,9 @@
       <Filter>App - Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\IScreen.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_Classic.h">
       <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>

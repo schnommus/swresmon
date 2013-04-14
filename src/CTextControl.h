@@ -19,12 +19,14 @@ public:
 
 	virtual void VDestroy() { }
 
+protected:
+	sf::Text m_text;
+
 private:
 	sf::Color m_colour;
 	Colour::Type m_colourType;
 
 	std::ostringstream m_oss;
 	float m_charSize;
-	sf::Text m_text;
 	sf::Font m_font;
 };
