@@ -76,6 +76,8 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 	m_options.LoadAllOptions();
 
+	m_systemData.Init();
+
 	} catch (std::exception &e) {
 		std::cout << "Fatal exception: " << e.what() << std::endl;
 		KillApplication();
@@ -97,6 +99,8 @@ void CApp::Run() {
 		for( int i = 0; i != m_controls.size(); ++i ) {
 			m_controls[i]->VStep();
 		}
+
+		m_systemData.Step();
 
 #ifdef EMULATE_SCREEN
 		sf::Event e;
@@ -147,6 +151,8 @@ void CApp::Run() {
 		m_frameClock.restart();
 	}
 
+	m_systemData.Destroy();
+
 #ifndef EMULATE_SCREEN
 	RzSBStop();
 #endif
@@ -160,6 +166,10 @@ float CApp::GetFrameTime() {
 
 sf::RenderTexture &CApp::RenderSurface() {
 	return m_renderSurface;
+}
+
+CSystemData &CApp::SystemData() {
+	return m_systemData;
 }
 
 CAppOptions &CApp::Options() {

@@ -4,6 +4,7 @@ CTextControl::CTextControl( float xpos, float ypos, int characterSize, Colour::T
 	m_position.x = xpos;
 	m_position.y = ypos;
 	m_charSize = characterSize;
+	m_colourType = colour;
 }
 
 void CTextControl::VInit() {
@@ -12,6 +13,9 @@ void CTextControl::VInit() {
 	m_text.setCharacterSize(m_charSize);
 	m_text.setPosition( m_position );
 	m_text.setColor( m_colour );
+
+	m_font.loadFromFile( m_app->Options().GetFontFilename() );
+	m_text.setFont( m_font );
 }
 
 void CTextControl::VUpdateControl() {

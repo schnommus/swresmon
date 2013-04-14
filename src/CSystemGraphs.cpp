@@ -10,33 +10,11 @@ extern "C"  {
 CGraphCPU::CGraphCPU(int xpos, int ypos, int width, int height ) :
 	CGraphControl(xpos, ypos, width, height, 50, 100 ) { }
 
-
-void CGraphCPU::VInit() {
-	m_currentLoad = 0;
-	CGraphControl::VInit();
-
-	m_font.loadFromFile( m_app->Options().GetFontFilename() );
-
-	sigar_open(&m_sigar);
-}
-
 float CGraphCPU::VUpdateGraph() {
-	sigar_cpu_t cpu;
-	sigar_cpu_get( m_sigar, &cpu );
-	sigar_cpu_perc_t perc;
-	sigar_cpu_perc_calculate(&m_oldcpu, &cpu, &perc);
-	m_oldcpu = cpu;
-
-	m_currentLoad = perc.combined*100;
-	return m_currentLoad;
+	return m_app->SystemData().CPU_UsagePercent();
 }
 
-void CGraphCPU::VDestroy() {
-	CGraphControl::VDestroy();
-	sigar_close(m_sigar);
-}
-
-void CGraphCPU::VDraw() {
+/*void CGraphCPU::VDraw() {
 	CGraphControl::VDraw();
 
 	// Draw the numbers
@@ -53,7 +31,7 @@ void CGraphCPU::VDraw() {
 
 	m_app->RenderSurface().draw(t);
 	m_app->RenderSurface().draw(t2);
-}
+}*/
 
 
 

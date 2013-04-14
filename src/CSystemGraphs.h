@@ -7,16 +7,7 @@
 class CGraphCPU : public CGraphControl {
 public:
 	CGraphCPU(int xpos, int ypos, int width, int height );
-
-	virtual void VInit();
-	virtual void VDestroy();
-	virtual void VDraw();
 	virtual float VUpdateGraph();
-
-	sigar_t *m_sigar;
-	sigar_cpu_t m_oldcpu;
-	int m_currentLoad;
-	sf::Font m_font;
 };
 
 class CGraphRAM : public CGraphControl {
