@@ -9,6 +9,7 @@
 #include "IControl.h"
 #include "CAppOptions.h"
 #include "CSystemData.h"
+#include "CVirtualRenderSurface.h"
 
 #include <vector>
 #include <memory>
@@ -44,15 +45,11 @@ public:
 private:
 	void RenderToSwitchblade();
 
-	sf::RenderTexture m_renderSurface;
-
 	// Controls to be processed
 	std::vector< std::shared_ptr< IControl > > m_controls;
 
-	// Sending images to the device
-	sf::Image m_renderBufferImage;
-	const unsigned char *m_renderBufferIn;
-	unsigned short *m_renderBufferOut;
+	// For rendering to the screen
+	CVirtualRenderSurface m_virtualRenderSurface;
 
 	// Keeping track of frame delta
 	sf::Clock m_frameClock;
