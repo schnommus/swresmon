@@ -8,6 +8,7 @@
 
 #include "IControl.h"
 #include "CAppOptions.h"
+#include "CSystemData.h"
 
 #include <vector>
 #include <memory>
@@ -29,6 +30,8 @@ public:
 	void AddControl( IControl *control );
 
 	sf::RenderTexture &RenderSurface();
+
+	CSystemData &SystemData();
 
 	CAppOptions &Options();
 
@@ -60,6 +63,9 @@ private:
 
 	// Config options
 	CAppOptions m_options;
+
+	// Keeps track of system stats
+	CSystemData m_systemData;
 
 	// Is the app running? (Static because nonmember must change this)
 	static bool m_isrunning;
