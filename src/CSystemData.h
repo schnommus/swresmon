@@ -13,6 +13,15 @@ public:
 
 	int CPU_UsagePercent();
 	int RAM_UsagePercent();
+	float HDD_GigsWritten();
+	float HDD_GigsRead();
+	float HDD_GigsUsed();
+	float HDD_GigsFree();
+	std::string UserName();
+	float Uptime();
+	std::string TimeString();
+
+	friend class CApp;
 
 private:
 	void RetrieveAllData();
@@ -32,4 +41,17 @@ private:
 
 	//RAM USAGE
 	int m_RAM_UsagePercent;
+
+	//HDD STATS
+	float m_HDD_GigsWritten;
+	float m_HDD_GigsRead;
+	float m_HDD_GigsFree;
+	float m_HDD_GigsUsed;
+
+	//USER STATS
+	std::string m_userName;
+	float m_uptime;
+
+	//TIME
+	std::string m_timeString;
 };

@@ -16,6 +16,8 @@ void CTextControl::VInit() {
 
 	m_font.loadFromFile( m_app->Options().GetFontFilename() );
 	m_text.setFont( m_font );
+
+	VUpdateControl();
 }
 
 void CTextControl::VUpdateControl() {

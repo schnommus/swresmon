@@ -67,6 +67,7 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 	m_options.LoadAllOptions();
 
+	m_systemData.m_app = this;
 	m_systemData.Init();
 
 	} catch (std::exception &e) {

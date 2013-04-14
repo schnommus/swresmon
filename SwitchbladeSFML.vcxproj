@@ -15,7 +15,6 @@
     <ClCompile Include="src\CAppOptions .cpp" />
     <ClCompile Include="src\CGraphControl.cpp" />
     <ClCompile Include="src\CSystemData.cpp" />
-    <ClCompile Include="src\CSystemGraphs.cpp" />
     <ClCompile Include="src\CTextControl.cpp" />
     <ClCompile Include="src\CVirtualRenderSurface.cpp" />
     <ClCompile Include="src\IScreen.cpp" />
@@ -27,12 +26,12 @@
     <ClInclude Include="src\CAppOptions.h" />
     <ClInclude Include="src\CGraphControl.h" />
     <ClInclude Include="src\CSystemData.h" />
-    <ClInclude Include="src\CSystemGraphs.h" />
     <ClInclude Include="src\CTextControl.h" />
     <ClInclude Include="src\CVirtualRenderSurface.h" />
     <ClInclude Include="src\IScreen.h" />
     <ClInclude Include="src\IUpdatedControl.h" />
     <ClInclude Include="src\IControl.h" />
+    <ClInclude Include="src\Screen_Classic.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D61EA203-C2D9-45CA-A5FE-7703C224BFBD}</ProjectGuid>
