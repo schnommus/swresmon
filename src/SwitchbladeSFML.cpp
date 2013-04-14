@@ -15,6 +15,20 @@ struct Text_CPU_Load : public CTextControl {
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "CPU Load"; }
 };
 
+struct Screen_Everything : public IScreen {
+	Screen_Everything() : IScreen("Screen_Everything") { }
+	virtual void VPopulateControls() {
+		AddControl( new CGraphCPU( 17, 450, 400, 270 ) );
+		AddControl( new CGraphRAM( 445, 120, 280, 90 ) );
+
+		AddControl( new Text_CPU_UsagePercent( 65, 10 ) );
+		AddControl( new Text_CPU_Load( 220, 110 ) );
+
+	// TODO: Move into separate text control
+		AddControl( new COtherStuff(0, 0, 1, 1) );
+	}
+};
+
 // Treat as windows app to avoid console displaying
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) {
 
@@ -22,14 +36,9 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 
 	app.Initialize(800, 480);
 
-	app.AddControl( new CGraphCPU( 17, 450, 400, 270 ) );
-	app.AddControl( new CGraphRAM( 445, 120, 280, 90 ) );
+	app.AddScreen( new Screen_Everything );
 
-	app.AddControl( new Text_CPU_UsagePercent( 65, 10 ) );
-	app.AddControl( new Text_CPU_Load( 220, 110 ) );
-	// Don't put the graph onscreen for this one; it's just some text
-	// TODO: Move into separate text control
-	app.AddControl( new COtherStuff(0, 0, 1, 1) );
+	app.SetActiveScreen( "Screen_Everything" );
 
 	app.Run();
 

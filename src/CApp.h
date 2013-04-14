@@ -6,7 +6,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-#include "IControl.h"
+#include "IScreen.h"
 #include "CAppOptions.h"
 #include "CSystemData.h"
 #include "CVirtualRenderSurface.h"
@@ -28,7 +28,9 @@ public:
 
 	void Run();
 
-	void AddControl( IControl *control );
+	void AddScreen( IScreen *screen );
+
+	void SetActiveScreen( std::string name );
 
 	sf::RenderTexture &RenderSurface();
 
@@ -45,8 +47,9 @@ public:
 private:
 	void RenderToSwitchblade();
 
-	// Controls to be processed
-	std::vector< std::shared_ptr< IControl > > m_controls;
+	// Screens available in the app
+	std::vector< std::shared_ptr< IScreen > > m_screens;
+	std::string m_activeScreenName;
 
 	// For rendering to the screen
 	CVirtualRenderSurface m_virtualRenderSurface;
