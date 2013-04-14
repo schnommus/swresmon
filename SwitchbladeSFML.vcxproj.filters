@@ -78,5 +78,11 @@
     <ClInclude Include="src\Screen_Classic.h">
       <Filter>Screens</Filter>
     </ClInclude>
+    <ClInclude Include="src\SharedControls.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_BigClock.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -95,6 +95,9 @@ void CApp::Run() {
 #ifdef EMULATE_SCREEN
 		sf::Event e;
 		while ( m_screenEmulator.pollEvent(e) ) {
+			if( e.type == sf::Event::KeyPressed ) // just testing screen-switching
+				if( e.key.code == sf::Keyboard::S )
+					SetActiveScreen("Screen_Classic");
 			if( e.type == sf::Event::Closed) {
 				m_screenEmulator.close();
 				KillApplication();

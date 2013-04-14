@@ -2,6 +2,7 @@
 
 #include "CApp.h"
 #include "Screen_Classic.h"
+#include "Screen_BigClock.h"
 
 
 // Treat as windows app to avoid console displaying
@@ -13,7 +14,9 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 
 	app.AddScreen( new Screen_Classic );
 
-	app.SetActiveScreen( "Screen_Classic" );
+	app.AddScreen( new Screen_BigClock );
+
+	app.SetActiveScreen( "Screen_BigClock" );
 
 	app.Run();
 
