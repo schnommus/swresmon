@@ -18,9 +18,6 @@ public:
 	virtual void VDestroy();
 	virtual void VDraw();
 	virtual float VUpdateGraph();
-
-	sigar_t *m_sigar;
-	int m_currentRAM;
 	sf::Font m_font;
 };
 

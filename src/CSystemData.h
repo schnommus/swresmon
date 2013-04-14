@@ -12,6 +12,7 @@ public:
 	void Destroy();
 
 	int CPU_UsagePercent();
+	int RAM_UsagePercent();
 
 private:
 	void RetrieveAllData();
@@ -28,4 +29,7 @@ private:
 	//CPU USAGE
 	sigar_cpu_t m_oldcpu;
 	int m_CPU_UsagePercent;
+
+	//RAM USAGE
+	int m_RAM_UsagePercent;
 };

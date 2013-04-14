@@ -29,8 +29,17 @@ void CSystemData::RetrieveAllData() {
 	sigar_cpu_perc_calculate(&m_oldcpu, &cpu, &perc);
 	m_oldcpu = cpu;
 	m_CPU_UsagePercent = perc.combined*100;
+
+	// RAM USAGE
+	sigar_mem_t memt;
+	sigar_mem_get(m_sigar, &memt);
+	m_RAM_UsagePercent = memt.used_percent;
 }
 
 int CSystemData::CPU_UsagePercent() {
 	return m_CPU_UsagePercent;
+}
+
+int CSystemData::RAM_UsagePercent() {
+	return m_RAM_UsagePercent;
 }
