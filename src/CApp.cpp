@@ -53,6 +53,9 @@ void CApp::Initialize( int size_x, int size_y ) {
 	std::cout << "Creating virtual render surface..." << std::endl;
 	m_virtualRenderSurface.Init( size_x, size_y );
 
+	// Show 'loading' text before doing anything else that's serious
+	ShowLoadingText();
+
 #ifndef EMULATE_SCREEN
 	// Connect to switchblade device
 	std::cout << "Hooking to Switchblade..." << std::endl;
@@ -66,6 +69,9 @@ void CApp::Initialize( int size_x, int size_y ) {
 
 	// To handle app-switch events etc
 	std::cout << "Registering to RzAppEvents returned code " << std::hex << RzSBAppEventSetCallback( reinterpret_cast<AppEvent*>(RazerAppEventCallback) ) << std::endl;
+	
+	//Loading text needs to be rendered initially
+	RenderToSwitchblade();
 #endif
 
 	m_options.LoadAllOptions();
@@ -176,8 +182,17 @@ void CApp::Run() {
 #ifndef EMULATE_SCREEN
 	RzSBStop();
 #endif
+	std::cout << "Application closing gracefully..";
 }
 
+void CApp::ShowLoadingText() {
+	m_virtualRenderSurface.RenderSurface().clear();
+	sf::Text t("Loading...", sf::Font::getDefaultFont(), 40 );
+	t.setColor( sf::Color(255, 255, 255, 100) );
+	t.setPosition(400-t.getLocalBounds().width/2, 240-t.getLocalBounds().height/2);
+	m_virtualRenderSurface.RenderSurface().draw(t);
+	m_virtualRenderSurface.RenderSurface().display();
+}
 
 float CApp::GetFrameTime() {
 	return m_frameTime;
@@ -229,7 +244,7 @@ void CApp::RenderToSwitchblade() {
 	// Then do the actual sending
 	HRESULT rval = RzSBRenderBuffer(RZSBSDK_DISPLAY_WIDGET, &params );
 	if( rval != RZSB_OK ) {
-		std::cout << "Error " << std::hex << rval << " when writing to render buffer! Most likely app is no longer active. Exiting...";
+		std::cout << "Error " << std::hex << rval << " when writing to render buffer! Most likely app is no longer active. Exiting..." << std::endl;
 		KillApplication();
 	}
 #endif

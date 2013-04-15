@@ -17,7 +17,7 @@
 #include <fstream>
 
 // Uncomment to instead render to a window (For debugging)
-#define EMULATE_SCREEN
+//#define EMULATE_SCREEN
 
 //#define SHOW_FPS
 
@@ -45,10 +45,13 @@ public:
 
 	virtual ~CApp();
 
+	// Needs to access details on screens
+	// Should move to getter as they're const operations
 	friend class CDynamicKeys;
 
 private:
 	void RenderToSwitchblade();
+	void ShowLoadingText();
 
 	// Screens available in the app
 	std::vector< std::shared_ptr< IScreen > > m_screens;

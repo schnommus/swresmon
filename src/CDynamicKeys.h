@@ -18,6 +18,7 @@ private:
 	void DrawKeyGrid();
 
 	CApp *m_app;
+	sf::Font m_keyFont;
 	sf::Vector2i m_keySize;
 	CVirtualRenderSurface m_virtualRenderSurface;
 };
