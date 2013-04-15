@@ -15,7 +15,6 @@ CApp *globalApp;
 
 HRESULT STDMETHODCALLTYPE MyDynamicKeyCallback(RZSBSDK_DKTYPE dk, RZSBSDK_KEYSTATETYPE dkState) {
 	HRESULT hReturn = S_OK;
-	// If it is dynamic key 1 and the key is in the down state
 	if(dk == RZSBSDK_DK_6 && dkState == RZSBSDK_KEYSTATE_DOWN)
 		globalApp->SetActiveScreen("CLASSIC");
 	if(dk == RZSBSDK_DK_7 && dkState == RZSBSDK_KEYSTATE_DOWN)
@@ -29,7 +28,7 @@ void CDynamicKeys::Init() {
 	// Will have enough space for all 10 keys
 	m_virtualRenderSurface.Init( m_keySize.x*5, m_keySize.y*2 );
 	globalApp = m_app;
-
+	m_keyFont.loadFromFile( m_app->Options().GetFontFilename() );
 #ifndef EMULATE_SCREEN
 	RzSBDynamicKeySetCallback(reinterpret_cast<DKEvent*>(MyDynamicKeyCallback));
 #endif
@@ -65,13 +64,12 @@ void CDynamicKeys::Draw() {
 
 	// Actual drawing goes here
 	for( int i = 0; i != m_app->m_screens.size(); ++i ) {
-		sf::Text t(m_app->m_screens[i]->m_name.c_str(), sf::Font::getDefaultFont(), 20);
-		t.setColor( m_app->Options().GetColourOf( Colour::TEXT2 ) );
-		if( m_app->m_activeScreenName == m_app->m_screens[i]->m_name ) {
-			t.setColor( m_app->Options().GetColourOf( Colour::TEXT1 ) );
-		}
-		t.setPosition(i*115+5, 73);
+		bool isSelected = (m_app->m_activeScreenName == m_app->m_screens[i]->m_name);
+		sf::Text t(m_app->m_screens[i]->m_name.c_str(), m_keyFont, isSelected ? 25 : 23 );
+		t.setColor( m_app->Options().GetColourOf( isSelected ? Colour::TEXT1 : Colour::TEXT2 ) );
+		t.setOrigin( t.getLocalBounds().width/2, t.getLocalBounds().height/2 );
 		t.rotate(-45);
+		t.setPosition(i*115+115/2, 115/2-6);
 		m_virtualRenderSurface.RenderSurface().draw(t);
 	}
 
