@@ -21,10 +21,10 @@ public:
 	void AddControl( IControl *control );
 
 	friend class CApp;
-protected:
-	CApp *m_app;
 
 	std::string m_name;
+protected:
+	CApp *m_app;
 
 	std::vector< std::shared_ptr< IControl > > m_controls;
 };

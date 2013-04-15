@@ -12,10 +12,15 @@ public:
 
 	unsigned short *GetRGB565();
 
+	unsigned short *GetSubsectionRGB565( int pos_x, int pos_y, int size_x, int size_y );
+	sf::Image GetSubsectionAsImage( int pos_x, int pos_y, int size_x, int size_y );
+
 	CVirtualRenderSurface();
 	~CVirtualRenderSurface();
 
 private:
+	unsigned short *DoRGB565Conversion();
+
 	sf::RenderTexture m_renderSurface;
 
 	sf::Image m_renderBufferImage;

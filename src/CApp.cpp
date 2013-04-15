@@ -7,6 +7,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <ObjBase.h>
 
 #include <SwitchBlade.h>
 
@@ -19,6 +20,7 @@ CApp::CApp() : m_ofs("SwitchbladeSFMLAppLog.txt")
 	// Res-dependent as it has to know on init. For debugging though so eh.
 	// + I don't think Razer'll be changing their device res any time soon
 	,m_screenEmulator( sf::VideoMode(800, 480), "Emulated Switchblade Screen" )
+	,m_keysEmulator( sf::VideoMode( 115*5, 115*2 ), "Emulated Switchblade Keys" )
 #endif
 { }
 
@@ -27,6 +29,7 @@ CApp::~CApp() { }
 
 
 #ifndef EMULATE_SCREEN
+typedef HRESULT (STDMETHODCALLTYPE AppEvent)(RZSBSDK_EVENTTYPETYPE, DWORD, DWORD);
 // This function never seems to get called even though it's registered but I'll leave it here :/
 HRESULT __stdcall RazerAppEventCallback( RZSBSDK_EVENTTYPETYPE eType, DWORD i1, DWORD i2) {
 	std::cout << "Got event from RazorSDK: " << eType << std::endl;
@@ -47,7 +50,7 @@ void CApp::Initialize( int size_x, int size_y ) {
 	std::cout.rdbuf(m_ofs.rdbuf());
 	
 	// Create the render surface
-	std::cout << "Creating SFML render surface..." << std::endl;
+	std::cout << "Creating virtual render surface..." << std::endl;
 	m_virtualRenderSurface.Init( size_x, size_y );
 
 #ifndef EMULATE_SCREEN
@@ -62,13 +65,16 @@ void CApp::Initialize( int size_x, int size_y ) {
 	}
 
 	// To handle app-switch events etc
-	std::cout << "Registering to RzAppEvents returned code " << std::hex << RzSBAppEventSetCallback( &RazerAppEventCallback ) << std::endl;
+	std::cout << "Registering to RzAppEvents returned code " << std::hex << RzSBAppEventSetCallback( reinterpret_cast<AppEvent*>(RazerAppEventCallback) ) << std::endl;
 #endif
 
 	m_options.LoadAllOptions();
 
 	m_systemData.m_app = this;
 	m_systemData.Init();
+
+	m_dynamicKeys.m_app = this;
+	m_dynamicKeys.Init();
 
 	} catch (std::exception &e) {
 		std::cout << "Fatal exception: " << e.what() << std::endl;
@@ -88,6 +94,8 @@ void CApp::Run() {
 
 		m_systemData.Step();
 
+		m_dynamicKeys.Step();
+
 		for( int i = 0; i != m_screens.size(); ++i ) {
 			m_screens[i]->StepControls();
 		}
@@ -97,9 +105,16 @@ void CApp::Run() {
 		while ( m_screenEmulator.pollEvent(e) ) {
 			if( e.type == sf::Event::KeyPressed ) // just testing screen-switching
 				if( e.key.code == sf::Keyboard::S )
-					SetActiveScreen("Screen_Classic");
+					SetActiveScreen("Screen_BigClock");
 			if( e.type == sf::Event::Closed) {
 				m_screenEmulator.close();
+				KillApplication();
+			}
+		}
+
+		while ( m_keysEmulator.pollEvent(e) ) {
+			if( e.type == sf::Event::Closed) {
+				m_keysEmulator.close();
 				KillApplication();
 			}
 		}
@@ -135,7 +150,18 @@ void CApp::Run() {
 		m_screenEmulator.clear();
 		m_screenEmulator.draw(sf::Sprite(m_virtualRenderSurface.RenderSurface().getTexture()));
 		m_screenEmulator.display();
+
+		m_dynamicKeys.Draw();
+		m_keysEmulator.clear();
+		m_keysEmulator.draw(sf::Sprite(m_dynamicKeys.GetAsTexture()));
+		m_keysEmulator.display();
 #endif
+
+		MSG msg;
+		while(PeekMessage( &msg, 0, 0, 0, PM_REMOVE )) {
+            TranslateMessage( &msg );
+            DispatchMessage( &msg );
+		}
 
 		// To avoid hogging CPU
 		sf::sleep( sf::seconds( m_options.GetForcedSleep() ) );
@@ -182,6 +208,11 @@ void CApp::AddScreen( IScreen *screen ) {
 
 void CApp::SetActiveScreen( std::string name ) {
 	m_activeScreenName = name;
+
+#ifndef EMULATE_SCREEN
+	m_dynamicKeys.Draw();
+	m_dynamicKeys.SendToDevice();
+#endif
 }
 
 

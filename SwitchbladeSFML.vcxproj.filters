@@ -11,9 +11,6 @@
     <Filter Include="App - Engine">
       <UniqueIdentifier>{40cb645d-8c7c-4fe6-881b-7b2ed66e6407}</UniqueIdentifier>
     </Filter>
-    <Filter Include="App - Custom">
-      <UniqueIdentifier>{013a5ad8-c6c4-4a64-a29e-f44e6dae4740}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Screens">
       <UniqueIdentifier>{47cc1c36-7151-483a-adbe-7c93ed2fbf8d}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="src\IScreen.cpp">
       <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CDynamicKeys.cpp">
+      <Filter>App - Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="src\Screen_BigClock.h">
       <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CDynamicKeys.h">
+      <Filter>App - Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
