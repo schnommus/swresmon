@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\CApp.cpp" />
     <ClCompile Include="src\CAppOptions .cpp" />
+    <ClCompile Include="src\CDynamicKeys.cpp" />
     <ClCompile Include="src\CGraphControl.cpp" />
     <ClCompile Include="src\CSystemData.cpp" />
     <ClCompile Include="src\CTextControl.cpp" />
@@ -24,6 +25,7 @@
   <ItemGroup>
     <ClInclude Include="src\CApp.h" />
     <ClInclude Include="src\CAppOptions.h" />
+    <ClInclude Include="src\CDynamicKeys.h" />
     <ClInclude Include="src\CGraphControl.h" />
     <ClInclude Include="src\CSystemData.h" />
     <ClInclude Include="src\CTextControl.h" />
@@ -108,7 +110,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-window-s.lib;sfml-system-s.lib;sfml-graphics-s.lib;sigar-x86-winnt.lib;RzSwitchbladeSDK2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-system-s.lib;sfml-graphics-s.lib;sigar-x86-winnt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

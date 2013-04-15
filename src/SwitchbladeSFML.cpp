@@ -16,7 +16,7 @@ int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, char*, int nShowCmd ) 
 
 	app.AddScreen( new Screen_BigClock );
 
-	app.SetActiveScreen( "Screen_BigClock" );
+	app.SetActiveScreen( "CLASSIC" );
 
 	app.Run();
 

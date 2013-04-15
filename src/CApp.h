@@ -10,6 +10,7 @@
 #include "CAppOptions.h"
 #include "CSystemData.h"
 #include "CVirtualRenderSurface.h"
+#include "CDynamicKeys.h"
 
 #include <vector>
 #include <memory>
@@ -44,6 +45,8 @@ public:
 
 	virtual ~CApp();
 
+	friend class CDynamicKeys;
+
 private:
 	void RenderToSwitchblade();
 
@@ -53,6 +56,9 @@ private:
 
 	// For rendering to the screen
 	CVirtualRenderSurface m_virtualRenderSurface;
+
+	// Handles the dynamic keys
+	CDynamicKeys m_dynamicKeys;
 
 	// Keeping track of frame delta
 	sf::Clock m_frameClock;
@@ -73,6 +79,7 @@ private:
 	// Only need a renderwindow if we're emulating the screen
 #ifdef EMULATE_SCREEN
 	sf::RenderWindow m_screenEmulator;
+	sf::RenderWindow m_keysEmulator;
 #endif
 };
 

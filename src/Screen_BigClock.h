@@ -3,7 +3,7 @@
 #include "SharedControls.h"
 
 struct Screen_BigClock : public IScreen {
-	Screen_BigClock() : IScreen("Screen_BigClock") { }
+	Screen_BigClock() : IScreen("CLOCK") { }
 	virtual void VPopulateControls() {
 
 		AddControl( new Text_Chrono( 25, 212, 44, Colour::TEXT1 ) );

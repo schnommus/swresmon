@@ -3,7 +3,7 @@
 #include "SharedControls.h"
 
 struct Screen_Classic : public IScreen {
-	Screen_Classic() : IScreen("Screen_Classic") { }
+	Screen_Classic() : IScreen("CLASSIC") { }
 	virtual void VPopulateControls() {
 		AddControl( new Graph_CPU( 17, 450, 400, 270 ) );
 		AddControl( new Text_CPU_UsagePercent( 65, 10, 90, Colour::TEXT1 ) );
