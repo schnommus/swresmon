@@ -17,9 +17,9 @@
 #include <fstream>
 
 // Uncomment to instead render to a window (For debugging)
-//#define EMULATE_SCREEN
+#define EMULATE_SCREEN
 
-//#define SHOW_FPS
+#define SHOW_FPS
 
 class CApp {
 public:
@@ -81,6 +81,7 @@ private:
 
 	// Only need a renderwindow if we're emulating the screen
 #ifdef EMULATE_SCREEN
+public:
 	sf::RenderWindow m_screenEmulator;
 	sf::RenderWindow m_keysEmulator;
 #endif

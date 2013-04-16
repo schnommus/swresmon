@@ -18,6 +18,8 @@ HRESULT STDMETHODCALLTYPE MyDynamicKeyCallback(RZSBSDK_DKTYPE dk, RZSBSDK_KEYSTA
 	if(dk == RZSBSDK_DK_6 && dkState == RZSBSDK_KEYSTATE_DOWN)
 		globalApp->SetActiveScreen("CLASSIC");
 	if(dk == RZSBSDK_DK_7 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("HDD");
+	if(dk == RZSBSDK_DK_8 && dkState == RZSBSDK_KEYSTATE_DOWN)
 		globalApp->SetActiveScreen("CLOCK");
 	return hReturn;
 }
