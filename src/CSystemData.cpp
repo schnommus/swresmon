@@ -14,10 +14,17 @@ void CSystemData::Init() {
 	// Zero all values
 	m_CPU_UsagePercent = 0;
 	m_RAM_UsagePercent = 0;
+
 	m_HDD_GigsRead = 0;
 	m_HDD_GigsWritten = 0;
 	m_HDD_GigsUsed = 0;
 	m_HDD_GigsFree = 0;
+	m_HDD_MegsReadPerSecond = 0;
+	m_HDD_MegsWrittenPerSecond = 0;
+	m_HDD_PeakRead = 0;
+	m_HDD_PeakWrite = 0;
+	m_HDD_MRPS_tempDiff = 0;
+	m_HDD_MWPS_tempDiff = 0;
 }
 
 void CSystemData::Step() {
@@ -50,6 +57,17 @@ void CSystemData::RetrieveAllData() {
 	sigar_disk_usage_get(m_sigar, m_app->Options().GetHDDName().c_str(), &diskt);
 	m_HDD_GigsRead = float(diskt.read_bytes)/1024/1024/1024;
 	m_HDD_GigsWritten = float(diskt.write_bytes)/1024/1024/1024;
+
+	if( m_HDD_MRPS_tempDiff != 0 ) {
+		m_HDD_MegsReadPerSecond = float(int(((float(diskt.read_bytes)/1024/1024 - m_HDD_MRPS_tempDiff)/m_updateInterval)*10))/10;
+		m_HDD_MegsWrittenPerSecond = float(int(((float(diskt.write_bytes)/1024/1024 - m_HDD_MWPS_tempDiff)/m_updateInterval)*10))/10;
+	}
+
+	if( m_HDD_MegsReadPerSecond > m_HDD_PeakRead ) m_HDD_PeakRead = m_HDD_MegsReadPerSecond;
+	if( m_HDD_MegsWrittenPerSecond > m_HDD_PeakWrite ) m_HDD_PeakWrite = m_HDD_MegsWrittenPerSecond;
+
+	m_HDD_MRPS_tempDiff = float(diskt.read_bytes)/1024/1024;
+	m_HDD_MWPS_tempDiff = float(diskt.write_bytes)/1024/1024;
 
 	sigar_file_system_usage_t filet;
 	sigar_file_system_usage_get(m_sigar, m_app->Options().GetHDDName().c_str(), &filet);
@@ -93,6 +111,22 @@ float CSystemData::HDD_GigsUsed() {
 
 float CSystemData::HDD_GigsFree() {
 	return m_HDD_GigsFree;
+}
+
+float CSystemData::HDD_MegsWrittenPerSecond() {
+	return m_HDD_MegsWrittenPerSecond;
+}
+
+float CSystemData::HDD_MegsReadPerSecond() {
+	return m_HDD_MegsReadPerSecond;
+}
+
+float CSystemData::HDD_PeakRead() {
+	return m_HDD_PeakRead;
+}
+
+float CSystemData::HDD_PeakWrite() {
+	return m_HDD_PeakWrite;
 }
 
 std::string CSystemData::UserName() {

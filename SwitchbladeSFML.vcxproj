@@ -35,6 +35,7 @@
     <ClInclude Include="src\IControl.h" />
     <ClInclude Include="src\Screen_BigClock.h" />
     <ClInclude Include="src\Screen_Classic.h" />
+    <ClInclude Include="src\Screen_HDD.h" />
     <ClInclude Include="src\SharedControls.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
