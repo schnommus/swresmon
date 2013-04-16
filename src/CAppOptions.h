@@ -20,6 +20,7 @@ public:
 
 	float GetUpdateInterval();
 	float GetForcedSleep();
+	float GetMaxHDDTransfer();
 
 	bool ShowLink();
 
@@ -31,5 +32,5 @@ private:
 
 	sf::Color m_text1_colour, m_text2_colour, m_graphBorder_colour;
 	std::string m_font_filename, m_hdd_name, m_showLink;
-	float m_updateInterval, m_forcedSleep;
+	float m_updateInterval, m_forcedSleep, m_hddMaxTransfer;
 };

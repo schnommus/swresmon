@@ -87,5 +87,8 @@
     <ClInclude Include="src\CDynamicKeys.h">
       <Filter>App - Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\Screen_HDD.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

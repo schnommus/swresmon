@@ -31,6 +31,10 @@ std::string CAppOptions::GetHDDName() {
 	return m_hdd_name;
 }
 
+float CAppOptions::GetMaxHDDTransfer() {
+	return m_hddMaxTransfer;
+}
+
 bool CAppOptions::ShowLink() {
 	return m_showLink != "false";
 }
@@ -47,6 +51,7 @@ void CAppOptions::LoadAllOptions() {
 
 	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
 	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");
+	m_hddMaxTransfer = GetSingleOptionAsFloat("HDD_MaxTransfer");
 }
 
 

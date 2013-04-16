@@ -13,6 +13,16 @@ struct Graph_RAM : public CGraphControl {
 	virtual float VUpdateGraph() { return m_app->SystemData().RAM_UsagePercent(); }
 };
 
+struct Graph_HDDRead : public CGraphControl {
+	Graph_HDDRead(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsReadPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
+};
+
+struct Graph_HDDWrite : public CGraphControl {
+	Graph_HDDWrite(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsWrittenPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
+};
+
 struct Text_CPU_UsagePercent : public CTextControl {
 	Text_CPU_UsagePercent( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().CPU_UsagePercent() << "%"; }
@@ -48,6 +58,26 @@ struct Text_HDD_GigsRead : public CTextControl {
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().HDD_GigsRead() << "Gb Read"; }
 };
 
+struct Text_HDD_MegsWrittenPerSecond : public CTextControl {
+	Text_HDD_MegsWrittenPerSecond( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().HDD_MegsWrittenPerSecond(); }
+};
+
+struct Text_HDD_MegsReadPerSecond : public CTextControl {
+	Text_HDD_MegsReadPerSecond( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().HDD_MegsReadPerSecond(); }
+};
+
+struct Text_HDD_PeakRead : public CTextControl {
+	Text_HDD_PeakRead( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Peak read: " << m_app->SystemData().HDD_PeakRead() << "MB/Sec"; }
+};
+
+struct Text_HDD_PeakWrite : public CTextControl {
+	Text_HDD_PeakWrite( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Peak write: " << m_app->SystemData().HDD_PeakWrite() << "MB/Sec"; }
+};
+
 struct Text_HDD_Usage : public CTextControl {
 	Text_HDD_Usage( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().HDD_GigsFree() << "Gb free of " << 
@@ -72,4 +102,10 @@ struct Text_Chrono : public CTextControl {
 struct Text_SebLogo : public CTextControl {
 	Text_SebLogo( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "sebholzapfel.com"; }
+};
+
+struct Text_Custom : public CTextControl {
+	Text_Custom( int x, int y, int sz, Colour::Type col, std::string text ) : CTextControl(x, y, sz, col), txt(text) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << txt; }
+	std::string txt;
 };
