@@ -6,6 +6,10 @@
 #include <vector>
 #include <string>
 
+// Can I use the mouse to move controls?
+// For tweaking arrangements in new screens
+#define MOVE_CONTROLS
+
 class CApp;
 
 class IScreen {

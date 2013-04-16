@@ -20,7 +20,7 @@ struct Screen_Classic : public IScreen {
 
 		AddControl( new Text_UserName( 473, 323, 22, Colour::TEXT1 ) );
 		AddControl( new Text_Uptime( 473, 353, 22, Colour::TEXT1 ) );
-		AddControl( new Text_Chrono( 473, 445, 12, Colour::TEXT1 ) );
+		AddControl( new Text_Chrono( 473, 442, 16, Colour::TEXT1 ) );
 
 		if( m_app->Options().ShowLink() )
 			AddControl( new Text_SebLogo( 10, 470, 8, Colour::TEXT2 ) );

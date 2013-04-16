@@ -27,5 +27,6 @@ void CTextControl::VUpdateControl() {
 }
 
 void CTextControl::VDraw() {
+	m_text.setPosition( m_position );
 	m_app->RenderSurface().draw(m_text);
 }
