@@ -13,6 +13,11 @@ struct Graph_RAM : public CGraphControl {
 	virtual float VUpdateGraph() { return m_app->SystemData().RAM_UsagePercent(); }
 };
 
+struct Graph_NET : public CGraphControl {
+	Graph_NET(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	virtual float VUpdateGraph() { return (m_app->SystemData().m_NET_MegsRxPerSecond + m_app->SystemData().m_NET_MegsTxPerSecond)/m_app->Options().GetMaxNetTransfer()*100; }
+};
+
 struct Graph_HDDRead : public CGraphControl {
 	Graph_HDDRead(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
 	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsReadPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
@@ -85,7 +90,7 @@ struct Text_RAM_MegsFree : public CTextControl {
 
 struct Text_RAM_Total : public CTextControl {
 	Text_RAM_Total( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
-	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_MegsUsed() + m_app->SystemData().RAM_MegsFree() << "MB total"; }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_MegsUsed() + m_app->SystemData().RAM_MegsFree() << "MB physical memory"; }
 };
 
 struct Text_HDD_Usage_Title : public CTextControl {
@@ -127,6 +132,36 @@ struct Text_HDD_Usage : public CTextControl {
 	Text_HDD_Usage( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().HDD_GigsFree() << "Gb free of " << 
 		m_app->SystemData().HDD_GigsFree() + m_app->SystemData().HDD_GigsUsed() << "Gb"; }
+};
+
+struct Text_NET_AdapterName : public CTextControl {
+	Text_NET_AdapterName( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Using adapter [" << m_app->SystemData().m_NET_AdapterName << "]"; }
+};
+
+struct Text_NET_MegsTx : public CTextControl {
+	Text_NET_MegsTx( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().m_NET_MegsTx << "MB Transmitted"; }
+};
+
+struct Text_NET_MegsRx : public CTextControl {
+	Text_NET_MegsRx( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().m_NET_MegsRx << "MB Recieved"; }
+};
+
+struct Text_NET_MegsRxPerSecond : public CTextControl {
+	Text_NET_MegsRxPerSecond( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().m_NET_MegsRxPerSecond << "MB/Sec Down"; }
+};
+
+struct Text_NET_MegsTxPerSecond : public CTextControl {
+	Text_NET_MegsTxPerSecond( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().m_NET_MegsTxPerSecond << "MB/Sec Up"; }
+};
+
+struct Text_NET_BandwidthOfGraph : public CTextControl {
+	Text_NET_BandwidthOfGraph( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Combined bandwidth usage (% of " << m_app->Options().GetMaxNetTransfer() << "MB/Sec):"; }
 };
 
 struct Text_UserName : public CTextControl {

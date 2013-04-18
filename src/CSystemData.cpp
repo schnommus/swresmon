@@ -2,6 +2,7 @@
 #include "CApp.h"
 
 #include <ctime>
+#include <iostream>
 
 extern "C"  {
 	#include <sigar_format.h>
@@ -27,6 +28,24 @@ void CSystemData::Init() {
 	m_HDD_PeakWrite = 0;
 	m_HDD_MRPS_tempDiff = 0;
 	m_HDD_MWPS_tempDiff = 0;
+
+	m_NET_MR_diff = 0;
+	m_NET_MT_diff = 0;
+	m_NET_MegsRx = 0;
+	m_NET_MegsTx= 0;
+	m_NET_MegsTxPerSecond = 0;
+	m_NET_MegsRxPerSecond = 0;
+
+	// SYSTEM STUFF (won't change)
+	sigar_sys_info_t sysinfo;
+	sigar_sys_info_get( m_sigar, &sysinfo );
+	m_OS_Desc = sysinfo.description;
+	m_OS_Arch = sysinfo.arch;
+	m_OS_BaseVersion = sysinfo.version;
+	m_OS_BaseName = sysinfo.name;
+	m_OS_Codename = sysinfo.vendor_code_name;
+	m_OS_PatchLevel = sysinfo.patch_level;
+	m_OS_CPU_Endianness = "little"; //True on all windows anyways
 }
 
 void CSystemData::Step() {
@@ -83,6 +102,39 @@ void CSystemData::RetrieveAllData() {
 	sigar_file_system_usage_get(m_sigar, m_app->Options().GetHDDName().c_str(), &filet);
 	m_HDD_GigsFree = float(filet.free*100/1024/1024)/100;
 	m_HDD_GigsUsed = float(filet.used*100/1024/1024)/100;
+
+	// NETWORK STATS
+	sigar_net_interface_list_t interfaceList; // Get all adapters
+	sigar_net_interface_list_get(m_sigar, &interfaceList);
+	std::string bestAdapter = "";
+	long long bestAmount = -1;
+	for( int i = 0; i != interfaceList.number; ++i ) { // Select best adapter
+		std::string myName = interfaceList.data[i];
+		std::cout << myName << std::endl;
+		sigar_net_interface_stat_t myStats;
+		sigar_net_interface_stat_get(m_sigar, myName.c_str(), &myStats);
+		std::cout << myStats.rx_bytes << std::endl;
+		if( long long(myStats.rx_bytes) > bestAmount ) {
+			std::cout << "CONDITION!" << std::endl;
+			bestAmount = myStats.rx_bytes;
+			bestAdapter = myName;
+		}
+	}
+	sigar_net_interface_list_destroy(m_sigar, &interfaceList);
+
+	sigar_net_interface_stat_t bestStats;
+	sigar_net_interface_stat_get(m_sigar, bestAdapter.c_str(), &bestStats);
+	m_NET_AdapterName = bestAdapter;
+	m_NET_MegsRx = float(bestStats.rx_bytes)/1024/1024;
+	m_NET_MegsTx = float(bestStats.tx_bytes)/1024/1024;
+	
+	if( m_NET_MR_diff != 0 ) {
+		m_NET_MegsRxPerSecond = float(int(((m_NET_MegsRx - m_NET_MR_diff)/m_updateInterval)*100))/100;
+		m_NET_MegsTxPerSecond = float(int(((m_NET_MegsTx - m_NET_MT_diff)/m_updateInterval)*100))/100;
+	}
+
+	m_NET_MR_diff = m_NET_MegsRx;
+	m_NET_MT_diff = m_NET_MegsTx;
 
 	// USER STATS
 	char buf[32];

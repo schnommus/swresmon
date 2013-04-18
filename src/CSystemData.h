@@ -81,4 +81,23 @@ private:
 
 	//TIME
 	std::string m_timeString;
+
+public: // To lazy for getters here
+	//SYSTEM STUFF
+	std::string m_OS_Desc;
+	std::string m_OS_Arch;
+	std::string m_OS_BaseVersion;
+	std::string m_OS_BaseName;
+	std::string m_OS_Codename;
+	std::string m_OS_PatchLevel;
+	std::string m_OS_CPU_Endianness;
+
+	//NET
+	std::string m_NET_AdapterName;
+	float m_NET_MegsTx;
+	float m_NET_MegsRx;
+	float m_NET_MegsTxPerSecond;
+	float m_NET_MegsRxPerSecond;
+	float m_NET_MR_diff;
+	float m_NET_MT_diff;
 };

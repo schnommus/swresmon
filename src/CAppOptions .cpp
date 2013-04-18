@@ -35,6 +35,11 @@ float CAppOptions::GetMaxHDDTransfer() {
 	return m_hddMaxTransfer;
 }
 
+float CAppOptions::GetMaxNetTransfer() {
+	return m_netMaxTransfer;
+}
+
+
 bool CAppOptions::ShowLink() {
 	return m_showLink != "false";
 }
@@ -52,6 +57,7 @@ void CAppOptions::LoadAllOptions() {
 	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
 	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");
 	m_hddMaxTransfer = GetSingleOptionAsFloat("HDD_MaxTransfer");
+	m_netMaxTransfer = GetSingleOptionAsFloat("NET_MaxTransfer");
 }
 
 
