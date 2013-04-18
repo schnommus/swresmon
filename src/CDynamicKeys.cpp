@@ -16,11 +16,21 @@ CApp *globalApp;
 HRESULT STDMETHODCALLTYPE MyDynamicKeyCallback(RZSBSDK_DKTYPE dk, RZSBSDK_KEYSTATETYPE dkState) {
 	HRESULT hReturn = S_OK;
 	if(dk == RZSBSDK_DK_6 && dkState == RZSBSDK_KEYSTATE_DOWN)
-		globalApp->SetActiveScreen("CLASSIC");
+		globalApp->SetActiveScreen("CPU");
 	if(dk == RZSBSDK_DK_7 && dkState == RZSBSDK_KEYSTATE_DOWN)
 		globalApp->SetActiveScreen("HDD");
 	if(dk == RZSBSDK_DK_8 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("NET");
+	if(dk == RZSBSDK_DK_9 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("RAM");
+	if(dk == RZSBSDK_DK_10 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("MISC");
+	if(dk == RZSBSDK_DK_5 && dkState == RZSBSDK_KEYSTATE_DOWN)
 		globalApp->SetActiveScreen("CLOCK");
+	if(dk == RZSBSDK_DK_4 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("ALL #2");
+	if(dk == RZSBSDK_DK_3 && dkState == RZSBSDK_KEYSTATE_DOWN)
+		globalApp->SetActiveScreen("ALL #1");
 	return hReturn;
 }
 
@@ -71,7 +81,7 @@ void CDynamicKeys::Draw() {
 		t.setColor( m_app->Options().GetColourOf( isSelected ? Colour::TEXT1 : Colour::TEXT2 ) );
 		t.setOrigin( t.getLocalBounds().width/2, t.getLocalBounds().height/2 );
 		t.rotate(-45);
-		t.setPosition(i*115+115/2, 115/2-6);
+		t.setPosition((i>4?4-(i-5):i)*115+115/2, ((i>4)?115:0)+115/2-6 );
 		m_virtualRenderSurface.RenderSurface().draw(t);
 	}
 

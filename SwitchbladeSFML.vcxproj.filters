@@ -90,5 +90,20 @@
     <ClInclude Include="src\Screen_HDD.h">
       <Filter>Screens</Filter>
     </ClInclude>
+    <ClInclude Include="src\Screen_CPU.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_RAM.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_Misc.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_All.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screen_NET.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

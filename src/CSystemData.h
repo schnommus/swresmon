@@ -12,7 +12,14 @@ public:
 	void Destroy();
 
 	int CPU_UsagePercent();
+	std::string CPU_Vendor();
+	std::string CPU_Model();
+	int CPU_NumCores();
+	float CPU_OperatingFreq();
+
 	int RAM_UsagePercent();
+	int RAM_MegsUsed();
+	int RAM_MegsFree();
 
 	float HDD_GigsWritten();
 	float HDD_GigsRead();
@@ -46,9 +53,15 @@ private:
 	//CPU USAGE
 	sigar_cpu_t m_oldcpu;
 	int m_CPU_UsagePercent;
+	std::string m_CPU_Vendor;
+	std::string m_CPU_Model;
+	int m_CPU_NumCores;
+	float m_CPU_OperatingFreq;
 
 	//RAM USAGE
 	int m_RAM_UsagePercent;
+	int m_RAM_MegsUsed;
+	int m_RAM_MegsFree;
 
 	//HDD STATS
 	float m_HDD_GigsWritten;
