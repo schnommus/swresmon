@@ -8,6 +8,7 @@
 
 // Can I use the mouse to move controls?
 // For tweaking arrangements in new screens
+// (Only compiles if EMULATE_SCREEN!)
 #define MOVE_CONTROLS
 
 class CApp;
