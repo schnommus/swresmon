@@ -110,18 +110,16 @@ void CSystemData::RetrieveAllData() {
 	long long bestAmount = -1;
 	for( int i = 0; i != interfaceList.number; ++i ) { // Select best adapter
 		std::string myName = interfaceList.data[i];
-		std::cout << myName << std::endl;
 		sigar_net_interface_stat_t myStats;
 		sigar_net_interface_stat_get(m_sigar, myName.c_str(), &myStats);
-		std::cout << myStats.rx_bytes << std::endl;
 		if( long long(myStats.rx_bytes) > bestAmount ) {
-			std::cout << "CONDITION!" << std::endl;
 			bestAmount = myStats.rx_bytes;
 			bestAdapter = myName;
 		}
 	}
 	sigar_net_interface_list_destroy(m_sigar, &interfaceList);
 
+	// Then get stats for it
 	sigar_net_interface_stat_t bestStats;
 	sigar_net_interface_stat_get(m_sigar, bestAdapter.c_str(), &bestStats);
 	m_NET_AdapterName = bestAdapter;

@@ -28,6 +28,11 @@ struct Graph_HDDWrite : public CGraphControl {
 	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsWrittenPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
 };
 
+struct Graph_HDD : public CGraphControl {
+	Graph_HDD(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	virtual float VUpdateGraph() { return ((m_app->SystemData().HDD_MegsWrittenPerSecond()+m_app->SystemData().HDD_MegsReadPerSecond())/m_app->Options().GetMaxHDDTransfer()*2)*100; }
+};
+
 struct Text_CPU_UsagePercent : public CTextControl {
 	Text_CPU_UsagePercent( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().CPU_UsagePercent() << "%"; }
@@ -169,8 +174,18 @@ struct Text_UserName : public CTextControl {
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "User: " << m_app->SystemData().UserName(); }
 };
 
+struct Text_UserName_Rotated : public CTextControl {
+	Text_UserName_Rotated( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { m_text.setRotation(-90); }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "User: " << m_app->SystemData().UserName(); }
+};
+
 struct Text_Uptime : public CTextControl {
 	Text_Uptime( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Uptime: " << m_app->SystemData().Uptime() << "Hr"; }
+};
+
+struct Text_Uptime_Rotated : public CTextControl {
+	Text_Uptime_Rotated( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { m_text.setRotation(-90); }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Uptime: " << m_app->SystemData().Uptime() << "Hr"; }
 };
 
@@ -186,6 +201,12 @@ struct Text_SebLogo : public CTextControl {
 
 struct Text_Custom : public CTextControl {
 	Text_Custom( int x, int y, int sz, Colour::Type col, std::string text ) : CTextControl(x, y, sz, col), txt(text) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << txt; }
+	std::string txt;
+};
+
+struct Text_Custom_Rotated : public CTextControl {
+	Text_Custom_Rotated( int x, int y, int sz, Colour::Type col, std::string text ) : CTextControl(x, y, sz, col), txt(text) { m_text.setRotation(-90); }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << txt; }
 	std::string txt;
 };
