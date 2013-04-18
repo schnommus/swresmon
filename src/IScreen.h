@@ -8,7 +8,7 @@
 
 // Can I use the mouse to move controls?
 // For tweaking arrangements in new screens
-//#define MOVE_CONTROLS
+#define MOVE_CONTROLS
 
 class CApp;
 

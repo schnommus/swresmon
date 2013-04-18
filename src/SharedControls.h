@@ -33,6 +33,31 @@ struct Text_CPU_Load : public CTextControl {
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "CPU Load"; }
 };
 
+struct Text_CPU_Model : public CTextControl {
+	Text_CPU_Model( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "CPU Model: " << m_app->SystemData().CPU_Model(); }
+};
+
+struct Text_CPU_Vendor : public CTextControl {
+	Text_CPU_Vendor( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "CPU Vendor: " << m_app->SystemData().CPU_Vendor(); }
+};
+
+struct Text_CPU_NumCores : public CTextControl {
+	Text_CPU_NumCores( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Number of cores: " << m_app->SystemData().CPU_NumCores(); }
+};
+
+struct Text_CPU_CoresUsed : public CTextControl {
+	Text_CPU_CoresUsed( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Estimated " << float(int((float(m_app->SystemData().CPU_UsagePercent())/100)*float(m_app->SystemData().CPU_NumCores())*10))/10 << " cores in use"; }
+};
+
+struct Text_CPU_OperatingFreq : public CTextControl {
+	Text_CPU_OperatingFreq( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Operating frequency: " << m_app->SystemData().CPU_OperatingFreq() << "MHz"; }
+};
+
 struct Text_RAM_Rotated : public CTextControl {
 	Text_RAM_Rotated( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { m_text.setRotation(-90); }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << "RAM"; }
@@ -41,6 +66,26 @@ struct Text_RAM_Rotated : public CTextControl {
 struct Text_RAM_UsagePercent_Rotated : public CTextControl {
 	Text_RAM_UsagePercent_Rotated( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { m_text.setRotation(-90); }
 	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_UsagePercent() << "%"; }
+};
+
+struct Text_RAM_UsagePercent : public CTextControl {
+	Text_RAM_UsagePercent( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_UsagePercent() << "%"; }
+};
+
+struct Text_RAM_MegsUsed : public CTextControl {
+	Text_RAM_MegsUsed( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_MegsUsed() << "MB in use"; }
+};
+
+struct Text_RAM_MegsFree : public CTextControl {
+	Text_RAM_MegsFree( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_MegsFree() << "MB available"; }
+};
+
+struct Text_RAM_Total : public CTextControl {
+	Text_RAM_Total( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << m_app->SystemData().RAM_MegsUsed() + m_app->SystemData().RAM_MegsFree() << "MB total"; }
 };
 
 struct Text_HDD_Usage_Title : public CTextControl {

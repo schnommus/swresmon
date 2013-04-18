@@ -14,6 +14,8 @@ void CSystemData::Init() {
 	// Zero all values
 	m_CPU_UsagePercent = 0;
 	m_RAM_UsagePercent = 0;
+	m_RAM_MegsUsed = 0;
+	m_RAM_MegsFree = 0;
 
 	m_HDD_GigsRead = 0;
 	m_HDD_GigsWritten = 0;
@@ -46,11 +48,19 @@ void CSystemData::RetrieveAllData() {
 	sigar_cpu_perc_calculate(&m_oldcpu, &cpu, &perc);
 	m_oldcpu = cpu;
 	m_CPU_UsagePercent = perc.combined*100;
+	sigar_cpu_info_list_t cpuinfolist;
+	sigar_cpu_info_list_get( m_sigar, &cpuinfolist );
+	m_CPU_NumCores = cpuinfolist.number;
+	m_CPU_Model = cpuinfolist.data->model;
+	m_CPU_Vendor = cpuinfolist.data->vendor;
+	m_CPU_OperatingFreq = cpuinfolist.data->mhz;
 
 	// RAM USAGE
 	sigar_mem_t memt;
 	sigar_mem_get(m_sigar, &memt);
 	m_RAM_UsagePercent = memt.used_percent;
+	m_RAM_MegsUsed = memt.actual_used/1024/1024;
+	m_RAM_MegsFree = memt.actual_free/1024/1024;
 
 	// HDD STATS
 	sigar_disk_usage_t diskt;
@@ -93,9 +103,34 @@ int CSystemData::CPU_UsagePercent() {
 	return m_CPU_UsagePercent;
 }
 
+std::string CSystemData::CPU_Vendor() {
+	return m_CPU_Vendor;
+}
+
+std::string CSystemData::CPU_Model() {
+	return m_CPU_Model;
+}
+
+int CSystemData::CPU_NumCores() {
+	return m_CPU_NumCores;
+}
+
+float CSystemData::CPU_OperatingFreq() {
+	return m_CPU_OperatingFreq;
+}
+
 int CSystemData::RAM_UsagePercent() {
 	return m_RAM_UsagePercent;
 }
+
+int CSystemData::RAM_MegsUsed() {
+	return m_RAM_MegsUsed;
+}
+
+int CSystemData::RAM_MegsFree() {
+	return m_RAM_MegsFree;
+}
+
 
 float CSystemData::HDD_GigsWritten() {
 	return m_HDD_GigsWritten;

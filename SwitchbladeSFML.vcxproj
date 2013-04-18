@@ -33,9 +33,14 @@
     <ClInclude Include="src\IScreen.h" />
     <ClInclude Include="src\IUpdatedControl.h" />
     <ClInclude Include="src\IControl.h" />
+    <ClInclude Include="src\Screen_All.h" />
     <ClInclude Include="src\Screen_BigClock.h" />
     <ClInclude Include="src\Screen_Classic.h" />
+    <ClInclude Include="src\Screen_CPU.h" />
     <ClInclude Include="src\Screen_HDD.h" />
+    <ClInclude Include="src\Screen_Misc.h" />
+    <ClInclude Include="src\Screen_NET.h" />
+    <ClInclude Include="src\Screen_RAM.h" />
     <ClInclude Include="src\SharedControls.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
