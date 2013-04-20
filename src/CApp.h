@@ -17,9 +17,9 @@
 #include <fstream>
 
 // Uncomment to instead render to a window (For debugging)
-#define EMULATE_SCREEN
+//#define EMULATE_SCREEN
 
-#define SHOW_FPS
+//#define SHOW_FPS
 
 class CApp {
 public:
