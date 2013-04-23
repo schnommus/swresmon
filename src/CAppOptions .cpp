@@ -44,6 +44,10 @@ bool CAppOptions::ShowLink() {
 	return m_showLink != "false";
 }
 
+bool CAppOptions::UseRazerIcons() {
+	return m_useRazerIcons == "true";
+}
+
 
 void CAppOptions::LoadAllOptions() {
 	m_text1_colour = sf::Color( GetSingleOptionAsFloat("Text1_Red"), GetSingleOptionAsFloat("Text1_Green"), GetSingleOptionAsFloat("Text1_Blue"), GetSingleOptionAsFloat("Text1_Alpha") );
@@ -53,6 +57,7 @@ void CAppOptions::LoadAllOptions() {
 	m_font_filename = GetSingleOption("FontName");
 	m_hdd_name = GetSingleOption("SelectedHDD");
 	m_showLink = GetSingleOption("ShowLink");
+	m_useRazerIcons = GetSingleOption("UseRazerIcons");
 
 	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
 	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");

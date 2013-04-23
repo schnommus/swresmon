@@ -41,6 +41,22 @@ void CDynamicKeys::Init() {
 	m_virtualRenderSurface.Init( m_keySize.x*5, m_keySize.y*2 );
 	globalApp = m_app;
 	m_keyFont.loadFromFile( m_app->Options().GetFontFilename() );
+
+
+	if( m_app->Options().UseRazerIcons() ) {
+		m_keyIcons[0].loadFromFile("RazerIcons/cpu.png");
+		m_keyIcons[1].loadFromFile("RazerIcons/hdd.png");
+		m_keyIcons[2].loadFromFile("RazerIcons/net.png");
+		m_keyIcons[3].loadFromFile("RazerIcons/ram.png");
+		m_keyIcons[4].loadFromFile("RazerIcons/misc.png");
+
+		m_keyIcons[7].loadFromFile("RazerIcons/all1.png");
+		m_keyIcons[8].loadFromFile("RazerIcons/all2.png");
+		m_keyIcons[9].loadFromFile("RazerIcons/time.png");
+	
+		m_selectionImage.loadFromFile("RazerIcons/selection.png");
+	}
+
 #ifndef EMULATE_SCREEN
 	RzSBDynamicKeySetCallback(reinterpret_cast<DKEvent*>(MyDynamicKeyCallback));
 #endif
@@ -74,15 +90,25 @@ void CDynamicKeys::Step() {
 void CDynamicKeys::Draw() {
 	m_virtualRenderSurface.RenderSurface().clear();
 
+	if( m_app->Options().UseRazerIcons() ) DrawIcons();
+
 	// Actual drawing goes here
 	for( int i = 0; i != m_app->m_screens.size(); ++i ) {
 		bool isSelected = (m_app->m_activeScreenName == m_app->m_screens[i]->m_name);
-		sf::Text t(m_app->m_screens[i]->m_name.c_str(), m_keyFont, isSelected ? 25 : 23 );
-		t.setColor( m_app->Options().GetColourOf( isSelected ? Colour::TEXT1 : Colour::TEXT2 ) );
-		t.setOrigin( t.getLocalBounds().width/2, t.getLocalBounds().height/2 );
-		t.rotate(-45);
-		t.setPosition((i>4?4-(i-5):i)*115+115/2, ((i>4)?115:0)+115/2-6 );
-		m_virtualRenderSurface.RenderSurface().draw(t);
+		if( !m_app->Options().UseRazerIcons() ) {
+			sf::Text t(m_app->m_screens[i]->m_name.c_str(), m_keyFont, isSelected ? 25 : 23 );
+			t.setColor( m_app->Options().GetColourOf( isSelected ? Colour::TEXT1 : Colour::TEXT2 ) );
+			t.setOrigin( t.getLocalBounds().width/2, t.getLocalBounds().height/2 );
+			t.rotate(-45);
+			t.setPosition((i>4?4-(i-5):i)*115+115/2, ((i>4)?115:0)+115/2-6 );
+			m_virtualRenderSurface.RenderSurface().draw(t);
+		} else {
+			if( isSelected ) {
+				sf::Sprite spr ( m_selectionImage );
+				spr.setPosition((i>4?4-(i-5):i)*115, ((i>4)?115:0));
+				m_virtualRenderSurface.RenderSurface().draw(spr);
+			}
+		}
 	}
 
 #ifdef EMULATE_SCREEN
@@ -90,6 +116,19 @@ void CDynamicKeys::Draw() {
 #endif
 
 	m_virtualRenderSurface.RenderSurface().display();
+}
+
+void CDynamicKeys::DrawIcons() {
+	for( int i = 0; i != 115*5; i += 115 ) {
+		sf::Sprite spr ( m_keyIcons[i/115] );
+		spr.setPosition(i, 0);
+		m_virtualRenderSurface.RenderSurface().draw(spr);
+	}
+	for( int i = 0; i != 115*5; i += 115 ) {
+		sf::Sprite spr ( m_keyIcons[5+i/115] );
+		spr.setPosition(i, 115);
+		m_virtualRenderSurface.RenderSurface().draw(spr);
+	}
 }
 
 void CDynamicKeys::DrawKeyGrid() {
