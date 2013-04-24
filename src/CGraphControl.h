@@ -21,6 +21,8 @@ public:
 	virtual void VDestroy();
 
 private:
+
+
 	std::deque<float> m_data;
 	sf::Vector2f m_graphSize;
 	int m_maxReadings;

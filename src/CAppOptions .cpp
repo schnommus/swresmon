@@ -49,6 +49,10 @@ bool CAppOptions::UseRazerIcons() {
 }
 
 
+bool CAppOptions::UseBars() {
+	return m_useBars == "true";
+}
+
 void CAppOptions::LoadAllOptions() {
 	m_text1_colour = sf::Color( GetSingleOptionAsFloat("Text1_Red"), GetSingleOptionAsFloat("Text1_Green"), GetSingleOptionAsFloat("Text1_Blue"), GetSingleOptionAsFloat("Text1_Alpha") );
 	m_text2_colour = sf::Color( GetSingleOptionAsFloat("Text2_Red"), GetSingleOptionAsFloat("Text2_Green"), GetSingleOptionAsFloat("Text2_Blue"), GetSingleOptionAsFloat("Text2_Alpha") );
@@ -58,6 +62,7 @@ void CAppOptions::LoadAllOptions() {
 	m_hdd_name = GetSingleOption("SelectedHDD");
 	m_showLink = GetSingleOption("ShowLink");
 	m_useRazerIcons = GetSingleOption("UseRazerIcons");
+	m_useBars = GetSingleOption("UseBars");
 
 	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
 	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");
