@@ -141,7 +141,7 @@ struct Text_HDD_Usage : public CTextControl {
 
 struct Text_NET_AdapterName : public CTextControl {
 	Text_NET_AdapterName( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
-	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Using adapter [" << m_app->SystemData().m_NET_AdapterName << "]"; }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Using adapter [" << m_app->SystemData().m_NET_AdapterName.back() << "]"; }
 };
 
 struct Text_NET_MegsTx : public CTextControl {

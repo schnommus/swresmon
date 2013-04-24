@@ -25,6 +25,7 @@ public:
 
 	bool ShowLink();
 	bool UseRazerIcons();
+	bool UseBars();
 
 	void LoadAllOptions();
 
@@ -33,6 +34,6 @@ private:
 	float GetSingleOptionAsFloat( std::string optionName );
 
 	sf::Color m_text1_colour, m_text2_colour, m_graphBorder_colour;
-	std::string m_font_filename, m_hdd_name, m_showLink, m_useRazerIcons;
+	std::string m_font_filename, m_hdd_name, m_showLink, m_useRazerIcons, m_useBars;
 	float m_updateInterval, m_forcedSleep, m_hddMaxTransfer, m_netMaxTransfer;
 };

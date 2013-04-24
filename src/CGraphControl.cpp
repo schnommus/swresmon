@@ -37,6 +37,7 @@ void CGraphControl::VStep() {
 
 void CGraphControl::VDraw() {
 	sf::VertexArray vertices(sf::LinesStrip, m_data.size());
+
 	for( int i = 0; i != m_data.size(); ++i ) {
 		vertices[i].position = m_position;
 		vertices[i].position.y -= m_data[i]*(float(m_graphSize.y)/m_upperThreshold);
@@ -49,11 +50,19 @@ void CGraphControl::VDraw() {
 
 		// Make elements of value 0 disappear to remove pre-emptive trail
 		if(m_data[i] <= 0.001) vertices[i].color.a = 0;
+
+		if( i != 0 && i != m_data.size()-1 && m_app->Options().UseBars() ) {
+			sf::RectangleShape rect( sf::Vector2f((m_graphSize.x/m_maxReadings), m_data[i]*(float(m_graphSize.y)/m_upperThreshold)) );
+			rect.setPosition( vertices[i].position.x-(m_graphSize.x/m_maxReadings), vertices[i].position.y);
+			rect.setFillColor( vertices[i].color );
+			m_app->RenderSurface().draw(rect);
+		}
 	}
-	m_app->RenderSurface().draw(vertices);
+
+	if( !m_app->Options().UseBars() ) m_app->RenderSurface().draw(vertices);
 
 	// So that ends are smooth, cover them with a rectangle
-	sf::RectangleShape rect( sf::Vector2f((m_graphSize.x/m_maxReadings)*2, m_graphSize.y) );
+	sf::RectangleShape rect( sf::Vector2f((m_graphSize.x/m_maxReadings)*2.1, m_graphSize.y) );
 	rect.setPosition( m_position.x, m_position.y-m_graphSize.y);
 	rect.setFillColor(sf::Color::Black);
 	m_app->RenderSurface().draw(rect);
