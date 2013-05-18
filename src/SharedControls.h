@@ -14,22 +14,22 @@ struct Graph_RAM : public CGraphControl {
 };
 
 struct Graph_NET : public CGraphControl {
-	Graph_NET(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	Graph_NET(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100, true ) {}
 	virtual float VUpdateGraph() { return (m_app->SystemData().m_NET_MegsRxPerSecond + m_app->SystemData().m_NET_MegsTxPerSecond)/m_app->Options().GetMaxNetTransfer()*100; }
 };
 
 struct Graph_HDDRead : public CGraphControl {
-	Graph_HDDRead(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	Graph_HDDRead(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100, true ) {}
 	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsReadPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
 };
 
 struct Graph_HDDWrite : public CGraphControl {
-	Graph_HDDWrite(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	Graph_HDDWrite(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100, true ) {}
 	virtual float VUpdateGraph() { return (m_app->SystemData().HDD_MegsWrittenPerSecond()/m_app->Options().GetMaxHDDTransfer())*100; }
 };
 
 struct Graph_HDD : public CGraphControl {
-	Graph_HDD(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100 ) {}
+	Graph_HDD(int xpos, int ypos, int width, int height ): CGraphControl(xpos, ypos, width, height, 50, 100, true ) {}
 	virtual float VUpdateGraph() { return ((m_app->SystemData().HDD_MegsWrittenPerSecond()+m_app->SystemData().HDD_MegsReadPerSecond())/m_app->Options().GetMaxHDDTransfer()*2)*100; }
 };
 
@@ -166,7 +166,7 @@ struct Text_NET_MegsTxPerSecond : public CTextControl {
 
 struct Text_NET_BandwidthOfGraph : public CTextControl {
 	Text_NET_BandwidthOfGraph( int x, int y, int sz, Colour::Type col ) : CTextControl(x, y, sz, col) { }
-	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Combined bandwidth usage (% of " << m_app->Options().GetMaxNetTransfer() << "MB/Sec):"; }
+	virtual void VUpdateText( std::ostringstream &oss ) { oss << "Combined bandwidth usage:"; }
 };
 
 struct Text_UserName : public CTextControl {

@@ -48,9 +48,12 @@ bool CAppOptions::UseRazerIcons() {
 	return m_useRazerIcons == "true";
 }
 
-
 bool CAppOptions::UseBars() {
 	return m_useBars == "true";
+}
+
+bool CAppOptions::UseDynamicGraphs() {
+	return m_useDynamicGraphs == "true";
 }
 
 void CAppOptions::LoadAllOptions() {
@@ -63,6 +66,7 @@ void CAppOptions::LoadAllOptions() {
 	m_showLink = GetSingleOption("ShowLink");
 	m_useRazerIcons = GetSingleOption("UseRazerIcons");
 	m_useBars = GetSingleOption("UseBars");
+	m_useDynamicGraphs = GetSingleOption("UseDynamicGraphs");
 
 	m_updateInterval = GetSingleOptionAsFloat("UpdateInterval");
 	m_forcedSleep = GetSingleOptionAsFloat("ForcedSleep");
