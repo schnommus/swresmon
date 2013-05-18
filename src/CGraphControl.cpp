@@ -1,11 +1,13 @@
 #include "CGraphControl.h"
 #include <iostream>
+#include <algorithm>
 
-CGraphControl::CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold ) {
+CGraphControl::CGraphControl( int pos_x, int pos_y, int width, int height, int maxReadings, int upperThreshold, bool isDynamic ) {
 	m_position = sf::Vector2f( pos_x, pos_y );
 	m_graphSize = sf::Vector2f( width, height );
 	m_maxReadings = maxReadings;
 	m_upperThreshold = upperThreshold;
+	m_isDynamic = isDynamic;
 }
 
 
@@ -23,6 +25,16 @@ void CGraphControl::VUpdateControl() {
 	m_data.push_front(VUpdateGraph());
 	m_data.resize(m_maxReadings, 0);
 	m_slideValue = 0;
+
+	if( m_isDynamic && m_app->Options().UseDynamicGraphs() ) {
+		std::deque<float>::iterator it = std::max_element( m_data.begin(), m_data.end() );
+
+		if( *it > 0.1 ) {
+			for( int i = 0; i != m_data.size(); ++i ) {
+				m_data[i] = float(m_upperThreshold)*(m_data[i]/(*it));
+			}
+		}
+	}
 }
 
 
